@@ -1,0 +1,18 @@
+Este arquivo contém informações sobre as imagens necessárias para o protótipo:
+
+1. logo.png - Logo do aplicativo "Conexão Município"
+2. user-avatar.png - Avatar do usuário
+3. news1.jpg - Imagem para notícia sobre campanha de vacinação
+4. news2.jpg - Imagem para notícia sobre obras na avenida
+5. report1.jpg - Imagem para denúncia de buraco na rua
+6. report2.jpg - Imagem para denúncia de lâmpada queimada
+7. map.jpg - Mapa da cidade
+8. qr-code.png - QR Code para confirmação de agendamento
+
+Nota: Para um protótipo funcional, você pode usar serviços como:
+- https://placeholder.com/ 
+- https://picsum.photos/
+- https://placehold.co/
+
+Exemplo de uso em HTML:
+<img src="https://placehold.co/600x400/1a73e8/ffffff?text=Logo+Conexão+Município" alt="Logo">

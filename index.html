@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexão Município</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Tela de Splash/Login -->
+        <div id="splash-screen" class="screen active">
+            <div class="splash-content">
+                <img src="https://placehold.co/200x200/1a73e8/ffffff?text=CM" alt="Logo Conexão Município" class="logo">
+                <h1>Conexão Município</h1>
+                <p>Conectando você à sua cidade</p>
+                <div class="login-options">
+                    <button id="login-btn" class="btn primary-btn">Entrar</button>
+                    <button id="register-btn" class="btn secondary-btn">Cadastrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela Principal - Dashboard -->
+        <div id="dashboard-screen" class="screen">
+            <header>
+                <div class="user-info">
+                    <img src="https://placehold.co/50x50/cccccc/666666?text=User" alt="Avatar do usuário" class="user-avatar">
+                    <span>Olá, Cidadão</span>
+                </div>
+                <div class="header-actions">
+                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-cog"></i>
+                </div>
+            </header>
+
+            <div class="main-content">
+                <section class="news-section">
+                    <h2>Notícias e Avisos</h2>
+                    <div class="news-carousel">
+                        <div class="news-card">
+                            <img src="https://placehold.co/300x150/34a853/ffffff?text=Vacinação" alt="Notícia 1">
+                            <div class="news-info">
+                                <h3>Campanha de Vacinação</h3>
+                                <p>Nova etapa começa na próxima semana</p>
+                            </div>
+                        </div>
+                        <div class="news-card">
+                            <img src="https://placehold.co/300x150/fbbc05/ffffff?text=Obras" alt="Notícia 2">
+                            <div class="news-info">
+                                <h3>Obras na Avenida Principal</h3>
+                                <p>Confira os desvios recomendados</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="quick-actions">
+                    <h2>Ações Rápidas</h2>
+                    <div class="action-grid">
+                        <div class="action-card" id="btn-denuncias">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Denúncias</span>
+                        </div>
+                        <div class="action-card" id="btn-agendamentos">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Agendamentos</span>
+                        </div>
+                        <div class="action-card" id="btn-mapa">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Mapa</span>
+                        </div>
+                        <div class="action-card" id="btn-chat">
+                            <i class="fas fa-comments"></i>
+                            <span>Atendimento</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status-section">
+                    <h2>Minhas Solicitações</h2>
+                    <div class="status-list">
+                        <div class="status-card">
+                            <div class="status-icon pending">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Buraco na Rua das Flores</h3>
+                                <p>Status: Em análise</p>
+                                <small>Enviado em: 10/03/2025</small>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-icon completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Lâmpada Queimada</h3>
+                                <p>Status: Resolvido</p>
+                                <small>Concluído em: 08/03/2025</small>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="sos-button">
+                <i class="fas fa-exclamation"></i>
+                <span>SOS</span>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item active" data-screen="dashboard-screen">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="nav-item" data-screen="denuncias-screen">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Denúncias</span>
+                </div>
+                <div class="nav-item" data-screen="agendamentos-screen">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </div>
+                <div class="nav-item" data-screen="mapa-screen">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item" data-screen="chat-screen">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Denúncias -->
+        <div id="denuncias-screen" class="screen">
+            <header class="screen-header">
+                <i class="fas fa-arrow-left back-btn"></i>
+                <h2>Denúncias Urbanas</h2>
+            </header>
+
+            <div class="main-content">
+                <button class="btn primary-btn new-report-btn">
+                    <i class="fas fa-plus"></i> Nova Denúncia
+                </button>
+
+                <section class="categories-section">
+                    <h3>Categorias</h3>
+                    <div class="categories-grid">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <span>Buracos</span>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <span>Iluminação</span>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <span>Lixo</span>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <span>Esgoto</span>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-traffic-light"></i>
+                            </div>
+                            <span>Trânsito</span>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="fas fa-spray-can"></i>
+                            </div>
+                            <span>Vandalismo</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="my-reports-section">
+                    <h3>Minhas Denúncias</h3>
+                    <div class="reports-list">
+                        <div class="report-card">
+                            <img src="https://placehold.co/100x100/ea4335/ffffff?text=Buraco" alt="Denúncia" class="report-img">
+                            <div class="report-info">
+                                <h4>Buraco na Rua das Flores</h4>
+                                <p class="report-status pending">Em análise</p>
+                                <p class="report-date">10/03/2025</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="report-card">
+                            <img src="https://placehold.co/100x100/fbbc05/ffffff?text=Lâmpada" alt="Denúncia" class="report-img">
+                            <div class="report-info">
+                                <h4>Lâmpada Queimada</h4>
+                                <p class="report-status completed">Resolvido</p>
+                                <p class="report-date">08/03/2025</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" data-screen="dashboard-screen">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="nav-item active" data-screen="denuncias-screen">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Denúncias</span>
+                </div>
+                <div class="nav-item" data-screen="agendamentos-screen">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </div>
+                <div class="nav-item" data-screen="mapa-screen">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item" data-screen="chat-screen">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Agendamentos -->
+        <div id="agendamentos-screen" class="screen">
+            <header class="screen-header">
+                <i class="fas fa-arrow-left back-btn"></i>
+                <h2>Agendamentos</h2>
+            </header>
+
+            <div class="main-content">
+                <section class="services-section">
+                    <h3>Selecione o Serviço</h3>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <span>Saúde</span>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <span>Documentos</span>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <span>CRAS</span>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <span>Licenças</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="calendar-section">
+                    <h3>Selecione a Data</h3>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <i class="fas fa-chevron-left"></i>
+                            <h4>Março 2025</h4>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="weekdays">
+                            <div>Dom</div>
+                            <div>Seg</div>
+                            <div>Ter</div>
+                            <div>Qua</div>
+                            <div>Qui</div>
+                            <div>Sex</div>
+                            <div>Sáb</div>
+                        </div>
+                        <div class="calendar-days">
+                            <!-- Dias do calendário serão gerados via JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <section class="time-slots-section">
+                    <h3>Horários Disponíveis</h3>
+                    <div class="time-slots">
+                        <div class="time-slot">08:00</div>
+                        <div class="time-slot">09:00</div>
+                        <div class="time-slot">10:00</div>
+                        <div class="time-slot">11:00</div>
+                        <div class="time-slot">13:00</div>
+                        <div class="time-slot">14:00</div>
+                        <div class="time-slot">15:00</div>
+                        <div class="time-slot">16:00</div>
+                    </div>
+                </section>
+
+                <button class="btn primary-btn confirm-btn">Confirmar Agendamento</button>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" data-screen="dashboard-screen">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="nav-item" data-screen="denuncias-screen">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Denúncias</span>
+                </div>
+                <div class="nav-item active" data-screen="agendamentos-screen">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </div>
+                <div class="nav-item" data-screen="mapa-screen">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item" data-screen="chat-screen">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Mapa Interativo -->
+        <div id="mapa-screen" class="screen">
+            <header class="screen-header">
+                <i class="fas fa-arrow-left back-btn"></i>
+                <h2>Mapa Interativo</h2>
+            </header>
+
+            <div class="main-content">
+                <div class="map-filters">
+                    <div class="filter-item active">Todos</div>
+                    <div class="filter-item">Buracos</div>
+                    <div class="filter-item">Iluminação</div>
+                    <div class="filter-item">Lixo</div>
+                    <div class="filter-item">Esgoto</div>
+                </div>
+
+                <div class="map-container">
+                    <img src="https://placehold.co/600x400/cccccc/666666?text=Mapa+da+Cidade" alt="Mapa da cidade" class="map-image">
+                    <!-- Marcadores serão adicionados via JavaScript -->
+                    <div class="map-marker" style="top: 30%; left: 40%;" data-type="buraco">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <div class="map-marker" style="top: 50%; left: 60%;" data-type="iluminacao">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="map-marker" style="top: 70%; left: 30%;" data-type="lixo">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-icon pending"></div>
+                        <span>Em análise</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon in-progress"></div>
+                        <span>Em andamento</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon completed"></div>
+                        <span>Resolvido</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" data-screen="dashboard-screen">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="nav-item" data-screen="denuncias-screen">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Denúncias</span>
+                </div>
+                <div class="nav-item" data-screen="agendamentos-screen">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </div>
+                <div class="nav-item active" data-screen="mapa-screen">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item" data-screen="chat-screen">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Chat/Atendimento -->
+        <div id="chat-screen" class="screen">
+            <header class="screen-header">
+                <i class="fas fa-arrow-left back-btn"></i>
+                <h2>Atendimento</h2>
+            </header>
+
+            <div class="main-content">
+                <div class="chat-options">
+                    <div class="chat-option">
+                        <i class="fas fa-robot"></i>
+                        <h3>Atendimento Virtual</h3>
+                        <p>Tire dúvidas com nosso assistente virtual</p>
+                        <button class="btn secondary-btn">Iniciar</button>
+                    </div>
+                    <div class="chat-option">
+                        <i class="fas fa-headset"></i>
+                        <h3>Atendimento Humano</h3>
+                        <p>Fale com um de nossos atendentes</p>
+                        <button class="btn secondary-btn">Iniciar</button>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages">
+                        <div class="message system">
+                            <div class="message-content">
+                                Bem-vindo ao atendimento da Prefeitura. Como posso ajudar?
+                            </div>
+                            <div class="message-time">14:00</div>
+                        </div>
+                        <div class="message user">
+                            <div class="message-content">
+                                Olá, gostaria de saber como obter a segunda via do IPTU.
+                            </div>
+                            <div class="message-time">14:01</div>
+                        </div>
+                        <div class="message system">
+                            <div class="message-content">
+                                Para obter a segunda via do IPTU, você pode acessar o portal do cidadão no site da prefeitura ou comparecer ao setor de tributos com seus documentos pessoais.
+                            </div>
+                            <div class="message-time">14:02</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Digite sua mensagem...">
+                        <button class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h3>Perguntas Frequentes</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Como obter certidão negativa de débitos?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Você pode solicitar a certidão negativa de débitos através do portal do cidadão ou presencialmente no setor de tributos da prefeitura.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Qual o horário de funcionamento da prefeitura?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                A prefeitura funciona de segunda a sexta-feira, das 8h às 17h.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" data-screen="dashboard-screen">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </div>
+                <div class="nav-item" data-screen="denuncias-screen">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Denúncias</span>
+                </div>
+                <div class="nav-item" data-screen="agendamentos-screen">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </div>
+                <div class="nav-item" data-screen="mapa-screen">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item active" data-screen="chat-screen">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Modal de Nova Denúncia -->
+        <div id="new-report-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Nova Denúncia</h3>
+                    <i class="fas fa-times close-modal"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select>
+                            <option>Selecione uma categoria</option>
+                            <option>Buracos</option>
+                            <option>Iluminação Pública</option>
+                            <option>Lixo</option>
+                            <option>Esgoto Aberto</option>
+                            <option>Trânsito</option>
+                            <option>Vandalismo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição do Problema</label>
+                        <textarea placeholder="Descreva o problema..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Adicionar Foto</label>
+                        <div class="photo-upload">
+                            <i class="fas fa-camera"></i>
+                            <span>Toque para adicionar</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Localização</label>
+                        <div class="location-input">
+                            <input type="text" placeholder="Endereço do problema" readonly>
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <small>Usando sua localização atual</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary-btn">Cancelar</button>
+                    <button class="btn primary-btn">Enviar Denúncia</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação de Agendamento -->
+        <div id="appointment-confirmation-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Confirmação de Agendamento</h3>
+                    <i class="fas fa-times close-modal"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="confirmation-details">
+                        <div class="qr-code">
+                            <img src="https://placehold.co/150x150/1a73e8/ffffff?text=QR+Code" alt="QR Code">
+                        </div>
+                        <div class="appointment-info">
+                            <p><strong>Serviço:</strong> Atendimento Médico</p>
+                            <p><strong>Data:</strong> 20/03/2025</p>
+                            <p><strong>Horário:</strong> 10:00</p>
+                            <p><strong>Local:</strong> UBS Central</p>
+                        </div>
+                    </div>
+                    <div class="confirmation-message">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Seu agendamento foi confirmado!</p>
+                        <small>Apresente este QR Code no local de atendimento</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary-btn">Adicionar ao Calendário</button>
+                    <button class="btn primary-btn">Concluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
