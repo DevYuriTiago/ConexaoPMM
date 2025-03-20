@@ -6,302 +6,534 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 2000);
 
-    // Navegação entre telas
+    // Adicionar eventos para botões de voltar
+    const backButtons = document.querySelectorAll('.back-btn');
+    backButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            showScreen('dashboard-screen');
+        });
+    });
+
+    // Adicionar eventos para itens de navegação
     const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
+    navItems.forEach(function(item) {
         item.addEventListener('click', function() {
-            const targetScreen = this.getAttribute('data-screen');
-            showScreen(targetScreen);
-            
-            // Atualizar item ativo no menu
-            navItems.forEach(navItem => {
-                navItem.classList.remove('active');
-            });
+            const screenId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            if (screenId) {
+                showScreen(screenId);
+            }
+        });
+    });
+
+    // Adicionar eventos para modais
+    const modalCloseButtons = document.querySelectorAll('.modal-close');
+    modalCloseButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const modalId = this.closest('.modal-overlay').id;
+            closeModal(modalId);
+        });
+    });
+
+    // Adicionar eventos para cards de categoria
+    const categoryItems = document.querySelectorAll('.category-item');
+    categoryItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            categoryItems.forEach(cat => cat.classList.remove('active'));
             this.classList.add('active');
         });
     });
 
-    // Botões de voltar
-    const backButtons = document.querySelectorAll('.back-btn');
-    backButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            showScreen('dashboard-screen');
-            
-            // Atualizar item ativo no menu
-            navItems.forEach(navItem => {
-                if (navItem.getAttribute('data-screen') === 'dashboard-screen') {
-                    navItem.classList.add('active');
-                } else {
-                    navItem.classList.remove('active');
-                }
-            });
+    // Adicionar eventos para dias do calendário
+    const calendarDays = document.querySelectorAll('.calendar-day:not(.disabled)');
+    calendarDays.forEach(function(day) {
+        day.addEventListener('click', function() {
+            calendarDays.forEach(d => d.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
-    // Botões de ação rápida
-    document.getElementById('btn-denuncias').addEventListener('click', function() {
-        showScreen('denuncias-screen');
-        updateActiveNavItem('denuncias-screen');
-    });
-
-    document.getElementById('btn-agendamentos').addEventListener('click', function() {
-        showScreen('agendamentos-screen');
-        updateActiveNavItem('agendamentos-screen');
-    });
-
-    document.getElementById('btn-mapa').addEventListener('click', function() {
-        showScreen('mapa-screen');
-        updateActiveNavItem('mapa-screen');
-    });
-
-    document.getElementById('btn-chat').addEventListener('click', function() {
-        showScreen('chat-screen');
-        updateActiveNavItem('chat-screen');
-    });
-
-    // Modal de Nova Denúncia
-    const newReportBtn = document.querySelector('.new-report-btn');
-    const newReportModal = document.getElementById('new-report-modal');
-    const closeModalBtns = document.querySelectorAll('.close-modal');
-
-    if (newReportBtn) {
-        newReportBtn.addEventListener('click', function() {
-            newReportModal.style.display = 'flex';
-        });
-    }
-
-    closeModalBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const modal = this.closest('.modal');
-            modal.style.display = 'none';
-        });
-    });
-
-    // Fechar modal ao clicar fora
-    window.addEventListener('click', function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    });
-
-    // Categorias de denúncia
-    const categoryCards = document.querySelectorAll('.category-card');
-    categoryCards.forEach(card => {
-        card.addEventListener('click', function() {
-            newReportModal.style.display = 'flex';
-        });
-    });
-
-    // Serviços de agendamento
-    const serviceCards = document.querySelectorAll('.service-card');
-    const confirmBtn = document.querySelector('.confirm-btn');
-    const appointmentModal = document.getElementById('appointment-confirmation-modal');
-
-    serviceCards.forEach(card => {
-        card.addEventListener('click', function() {
-            // Destacar serviço selecionado
-            serviceCards.forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-        });
-    });
-
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
-            appointmentModal.style.display = 'flex';
-        });
-    }
-
-    // Calendário
-    generateCalendar();
-
-    // Seleção de horários
-    const timeSlots = document.querySelectorAll('.time-slot');
-    timeSlots.forEach(slot => {
+    // Adicionar eventos para horários
+    const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
+    timeSlots.forEach(function(slot) {
         slot.addEventListener('click', function() {
-            timeSlots.forEach(s => s.classList.remove('selected'));
-            this.classList.add('selected');
+            timeSlots.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
-    // Filtros do mapa
-    const mapFilters = document.querySelectorAll('.filter-item');
-    const mapMarkers = document.querySelectorAll('.map-marker');
-
-    mapFilters.forEach(filter => {
+    // Adicionar eventos para filtros do mapa
+    const mapFilters = document.querySelectorAll('.filter-chip');
+    mapFilters.forEach(function(filter) {
         filter.addEventListener('click', function() {
             mapFilters.forEach(f => f.classList.remove('active'));
             this.classList.add('active');
-
-            const filterType = this.textContent.toLowerCase();
-            
-            if (filterType === 'todos') {
-                mapMarkers.forEach(marker => {
-                    marker.style.display = 'flex';
-                });
-            } else {
-                mapMarkers.forEach(marker => {
-                    const markerType = marker.getAttribute('data-type');
-                    if (markerType === filterType) {
-                        marker.style.display = 'flex';
-                    } else {
-                        marker.style.display = 'none';
-                    }
-                });
-            }
         });
     });
 
-    // Chat
-    const chatOptions = document.querySelectorAll('.chat-option button');
-    const chatContainer = document.querySelector('.chat-container');
-    const faqSection = document.querySelector('.faq-section');
-
-    chatOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            chatContainer.style.display = 'flex';
-            faqSection.style.display = 'none';
-        });
-    });
-
-    const sendBtn = document.querySelector('.send-btn');
+    // Adicionar evento para envio de mensagem no chat
+    const chatSendBtn = document.querySelector('.chat-send-btn');
     const chatInput = document.querySelector('.chat-input input');
-    const chatMessages = document.querySelector('.chat-messages');
-
-    if (sendBtn && chatInput) {
-        sendBtn.addEventListener('click', function() {
-            sendMessage();
+    if (chatSendBtn && chatInput) {
+        chatSendBtn.addEventListener('click', function() {
+            sendChatMessage();
         });
-
+        
         chatInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                sendMessage();
+                sendChatMessage();
             }
         });
     }
 
-    // FAQ
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            const faqItem = this.parentElement;
-            faqItem.classList.toggle('active');
+    // Inicializar carrossel de notícias
+    initNewsCarousel();
+
+    // Inicializar eventos para os novos modais
+    initModalEvents();
+});
+
+// Função para inicializar eventos relacionados aos modais
+function initModalEvents() {
+    // Botão de configurações no header
+    const settingsBtn = document.querySelector('.settings-icon');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', function() {
+            openSettings();
+        });
+    }
+    
+    // Botão de notificações no header
+    const notificationsBtn = document.querySelector('.notifications-icon');
+    if (notificationsBtn) {
+        notificationsBtn.addEventListener('click', function() {
+            openNotifications();
+        });
+    }
+    
+    // Botão de SOS no dashboard
+    const sosBtn = document.querySelector('.sos-button');
+    if (sosBtn) {
+        sosBtn.addEventListener('click', function() {
+            openSOS();
+        });
+    }
+    
+    // Botões para abrir detalhes de denúncias
+    const reportCards = document.querySelectorAll('.report-card');
+    reportCards.forEach(function(card) {
+        card.addEventListener('click', function() {
+            const reportId = this.getAttribute('data-id') || '1';
+            openReportDetails(reportId);
         });
     });
-
-    // Funções auxiliares
-    function showScreen(screenId) {
-        const screens = document.querySelectorAll('.screen');
-        screens.forEach(screen => {
-            screen.classList.remove('active');
+    
+    // Status cards para abrir detalhes de denúncias
+    const statusCards = document.querySelectorAll('.status-card');
+    statusCards.forEach(function(card) {
+        card.addEventListener('click', function() {
+            const reportId = this.getAttribute('data-id') || '1';
+            openReportDetails(reportId);
         });
-        document.getElementById(screenId).classList.add('active');
-    }
-
-    function updateActiveNavItem(screenId) {
-        navItems.forEach(item => {
-            if (item.getAttribute('data-screen') === screenId) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        });
-    }
-
-    function generateCalendar() {
-        const calendarDays = document.querySelector('.calendar-days');
-        if (!calendarDays) return;
-
-        // Limpar calendário existente
-        calendarDays.innerHTML = '';
-
-        // Data atual
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
-        const currentDay = now.getDate();
-
-        // Primeiro dia do mês
-        const firstDay = new Date(currentYear, currentMonth, 1);
-        const startingDay = firstDay.getDay(); // 0 = Domingo, 1 = Segunda, etc.
-
-        // Número de dias no mês
-        const lastDay = new Date(currentYear, currentMonth + 1, 0);
-        const totalDays = lastDay.getDate();
-
-        // Adicionar dias vazios para alinhar com o dia da semana
-        for (let i = 0; i < startingDay; i++) {
-            const emptyDay = document.createElement('div');
-            calendarDays.appendChild(emptyDay);
-        }
-
-        // Adicionar dias do mês
-        for (let i = 1; i <= totalDays; i++) {
-            const day = document.createElement('div');
-            day.textContent = i;
+    });
+    
+    // Filtros do mapa
+    const mapFilters = document.querySelectorAll('.filter-chip');
+    mapFilters.forEach(function(filter) {
+        filter.addEventListener('click', function() {
+            // Remover classe active de todos os filtros
+            mapFilters.forEach(f => f.classList.remove('active'));
             
-            // Destacar dia atual
-            if (i === currentDay) {
-                day.classList.add('today');
-            }
-
-            // Adicionar evento de clique
-            day.addEventListener('click', function() {
-                const selectedDays = document.querySelectorAll('.calendar-days .selected');
-                selectedDays.forEach(d => d.classList.remove('selected'));
-                this.classList.add('selected');
-            });
-
-            calendarDays.appendChild(day);
-        }
+            // Adicionar classe active ao filtro clicado
+            this.classList.add('active');
+            
+            // Filtrar marcadores no mapa
+            const filterType = this.textContent.toLowerCase();
+            filterMapMarkers(filterType);
+        });
+    });
+    
+    // Eventos para opções de acessibilidade
+    const highContrastToggle = document.getElementById('high-contrast-toggle');
+    if (highContrastToggle) {
+        highContrastToggle.addEventListener('change', function() {
+            document.body.classList.toggle('high-contrast', this.checked);
+            // Salvar preferência no localStorage
+            localStorage.setItem('highContrast', this.checked);
+        });
+        
+        // Verificar preferência salva
+        const savedHighContrast = localStorage.getItem('highContrast') === 'true';
+        highContrastToggle.checked = savedHighContrast;
+        document.body.classList.toggle('high-contrast', savedHighContrast);
     }
+    
+    const largeTextToggle = document.getElementById('large-text-toggle');
+    if (largeTextToggle) {
+        largeTextToggle.addEventListener('change', function() {
+            document.body.classList.toggle('large-text', this.checked);
+            // Salvar preferência no localStorage
+            localStorage.setItem('largeText', this.checked);
+        });
+        
+        // Verificar preferência salva
+        const savedLargeText = localStorage.getItem('largeText') === 'true';
+        largeTextToggle.checked = savedLargeText;
+        document.body.classList.toggle('large-text', savedLargeText);
+    }
+    
+    // Marcar notificações como lidas
+    const markAsReadBtn = document.querySelector('#notifications-modal .secondary-btn');
+    if (markAsReadBtn) {
+        markAsReadBtn.addEventListener('click', function() {
+            const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+            unreadNotifications.forEach(function(notification) {
+                notification.classList.remove('unread');
+            });
+            
+            // Atualizar o badge de notificações
+            const badge = document.querySelector('.notifications-icon .badge');
+            if (badge) {
+                badge.style.display = 'none';
+            }
+        });
+    }
+}
 
-    function sendMessage() {
-        const message = chatInput.value.trim();
-        if (message === '') return;
+// Função para filtrar marcadores no mapa
+function filterMapMarkers(filterType) {
+    const markers = document.querySelectorAll('.map-marker');
+    
+    markers.forEach(function(marker) {
+        const markerIcon = marker.querySelector('.marker-icon i');
+        const markerType = getMarkerType(markerIcon);
+        
+        if (filterType === 'todos' || markerType === filterType) {
+            marker.style.display = 'block';
+        } else {
+            marker.style.display = 'none';
+        }
+    });
+}
 
-        // Adicionar mensagem do usuário
-        const userMessage = document.createElement('div');
-        userMessage.className = 'message user';
-        userMessage.innerHTML = `
-            <div class="message-content">${message}</div>
-            <div class="message-time">${getCurrentTime()}</div>
+// Função para obter o tipo de marcador com base no ícone
+function getMarkerType(iconElement) {
+    if (!iconElement) return 'outros';
+    
+    const iconClass = iconElement.className;
+    
+    if (iconClass.includes('exclamation-circle')) return 'buracos';
+    if (iconClass.includes('lightbulb')) return 'iluminação';
+    if (iconClass.includes('trash')) return 'lixo';
+    if (iconClass.includes('water')) return 'esgoto';
+    if (iconClass.includes('traffic-light')) return 'trânsito';
+    if (iconClass.includes('spray-can')) return 'vandalismo';
+    
+    return 'outros';
+}
+
+// Função para mostrar uma tela específica
+function showScreen(screenId) {
+    // Esconder todas as telas
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(function(screen) {
+        screen.classList.remove('active');
+    });
+    
+    // Mostrar a tela selecionada
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.classList.add('active');
+        
+        // Atualizar navegação
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(function(item) {
+            item.classList.remove('active');
+            const itemScreenId = item.getAttribute('onclick').match(/'([^']+)'/);
+            if (itemScreenId && itemScreenId[1] === screenId) {
+                item.classList.add('active');
+            }
+        });
+    }
+}
+
+// Função para abrir modal
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+}
+
+// Função para fechar modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
+
+// Função para enviar mensagem no chat
+function sendChatMessage() {
+    const chatInput = document.querySelector('.chat-input input');
+    const chatMessages = document.querySelector('.chat-messages');
+    
+    if (chatInput && chatInput.value.trim() !== '') {
+        const messageText = chatInput.value.trim();
+        const now = new Date();
+        const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+        
+        // Criar elemento de mensagem do usuário
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message message-user animate-fadeIn';
+        messageDiv.innerHTML = `
+            <div>${messageText}</div>
+            <div class="message-time">${timeString}</div>
         `;
-        chatMessages.appendChild(userMessage);
-
+        
+        // Adicionar mensagem à conversa
+        chatMessages.appendChild(messageDiv);
+        
         // Limpar input
         chatInput.value = '';
-
-        // Simular resposta do sistema após 1 segundo
+        
+        // Scroll para a última mensagem
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Simular resposta automática após 1 segundo
         setTimeout(function() {
-            const systemMessage = document.createElement('div');
-            systemMessage.className = 'message system';
-            systemMessage.innerHTML = `
-                <div class="message-content">Obrigado pelo seu contato. Um atendente irá responder em breve.</div>
-                <div class="message-time">${getCurrentTime()}</div>
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'message message-bot animate-fadeIn';
+            botMessageDiv.innerHTML = `
+                <div>Obrigado pelo seu contato. Um atendente analisará sua mensagem em breve.</div>
+                <div class="message-time">${timeString}</div>
             `;
-            chatMessages.appendChild(systemMessage);
-
-            // Rolar para o final da conversa
+            
+            chatMessages.appendChild(botMessageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }, 1000);
-
-        // Rolar para o final da conversa
-        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+}
 
-    function getCurrentTime() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
+// Função para abrir modal de detalhes da denúncia
+function openReportDetails(reportId) {
+    // Simular carregamento de dados da denúncia com base no ID
+    const reportData = getReportData(reportId);
+    
+    // Atualizar o conteúdo do modal com os dados da denúncia
+    const modal = document.getElementById('report-details-modal');
+    if (modal) {
+        const title = modal.querySelector('.modal-title');
+        const reportTitle = modal.querySelector('.report-title');
+        const reportAddress = modal.querySelector('.report-address');
+        const reportDate = modal.querySelector('.report-date');
+        const reportStatus = modal.querySelector('.report-status');
+        const reportImage = modal.querySelector('.report-image img');
+        
+        if (title) title.textContent = `Detalhes da Denúncia #${reportId}`;
+        if (reportTitle) reportTitle.textContent = reportData.title;
+        if (reportAddress) reportAddress.textContent = reportData.address;
+        if (reportDate) reportDate.textContent = reportData.date;
+        if (reportStatus) {
+            reportStatus.textContent = reportData.status;
+            reportStatus.className = 'report-status';
+            reportStatus.classList.add(reportData.statusClass);
+        }
+        if (reportImage) reportImage.src = reportData.image;
+        
+        // Preencher a timeline com atualizações
+        const timelineContainer = modal.querySelector('.report-timeline');
+        if (timelineContainer) {
+            timelineContainer.innerHTML = '';
+            reportData.updates.forEach(update => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="timeline-date">${update.date}</div>
+                    <div class="timeline-content">
+                        <h4>${update.title}</h4>
+                        <p>${update.description}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
     }
+    
+    openModal('report-details-modal');
+}
 
-    // Acessibilidade
-    const toggleHighContrast = function() {
-        document.body.classList.toggle('high-contrast');
+// Função para obter dados simulados de uma denúncia
+function getReportData(reportId) {
+    const reports = {
+        '1': {
+            title: 'Buraco na Rua das Flores',
+            address: 'Rua das Flores, 123 - Centro',
+            date: '18/03/2025',
+            status: 'Em análise',
+            statusClass: 'status-pending',
+            image: 'https://placehold.co/400x300/2196F3/FFFFFF/png?text=Buraco',
+            updates: [
+                {
+                    date: '20/03/2025',
+                    title: 'Análise técnica',
+                    description: 'Equipe técnica realizou vistoria no local e confirmou a necessidade de reparo.'
+                },
+                {
+                    date: '18/03/2025',
+                    title: 'Denúncia registrada',
+                    description: 'Sua denúncia foi registrada com sucesso e está aguardando análise.'
+                }
+            ]
+        },
+        '2': {
+            title: 'Lâmpada queimada',
+            address: 'Av. Principal, em frente ao mercado',
+            date: '15/03/2025',
+            status: 'Resolvido',
+            statusClass: 'status-completed',
+            image: 'https://placehold.co/400x300/4CAF50/FFFFFF/png?text=Lâmpada',
+            updates: [
+                {
+                    date: '17/03/2025',
+                    title: 'Problema resolvido',
+                    description: 'A equipe de manutenção substituiu a lâmpada defeituosa.'
+                },
+                {
+                    date: '16/03/2025',
+                    title: 'Em andamento',
+                    description: 'Solicitação encaminhada para a equipe de manutenção.'
+                },
+                {
+                    date: '15/03/2025',
+                    title: 'Denúncia registrada',
+                    description: 'Sua denúncia foi registrada com sucesso e está aguardando análise.'
+                }
+            ]
+        },
+        '3': {
+            title: 'Lixo acumulado',
+            address: 'Praça Central, próximo ao coreto',
+            date: '19/03/2025',
+            status: 'Em andamento',
+            statusClass: 'status-in-progress',
+            image: 'https://placehold.co/400x300/2196F3/FFFFFF/png?text=Lixo',
+            updates: [
+                {
+                    date: '20/03/2025',
+                    title: 'Em andamento',
+                    description: 'Equipe de limpeza foi designada e iniciará os trabalhos amanhã.'
+                },
+                {
+                    date: '19/03/2025',
+                    title: 'Denúncia registrada',
+                    description: 'Sua denúncia foi registrada com sucesso e está aguardando análise.'
+                }
+            ]
+        },
+        '4': {
+            title: 'Vazamento de água',
+            address: 'Rua dos Ipês, esquina com Av. das Palmeiras',
+            date: '17/03/2025',
+            status: 'Em análise',
+            statusClass: 'status-pending',
+            image: 'https://placehold.co/400x300/2196F3/FFFFFF/png?text=Vazamento',
+            updates: [
+                {
+                    date: '19/03/2025',
+                    title: 'Vistoria agendada',
+                    description: 'Equipe técnica realizará vistoria no local amanhã pela manhã.'
+                },
+                {
+                    date: '17/03/2025',
+                    title: 'Denúncia registrada',
+                    description: 'Sua denúncia foi registrada com sucesso e está aguardando análise.'
+                }
+            ]
+        },
+        '5': {
+            title: 'Semáforo quebrado',
+            address: 'Cruzamento da Av. Principal com Rua do Comércio',
+            date: '14/03/2025',
+            status: 'Resolvido',
+            statusClass: 'status-completed',
+            image: 'https://placehold.co/400x300/4CAF50/FFFFFF/png?text=Semáforo',
+            updates: [
+                {
+                    date: '16/03/2025',
+                    title: 'Problema resolvido',
+                    description: 'Equipe técnica substituiu o controlador do semáforo e o equipamento está funcionando normalmente.'
+                },
+                {
+                    date: '15/03/2025',
+                    title: 'Em andamento',
+                    description: 'Equipe de manutenção foi designada para resolver o problema.'
+                },
+                {
+                    date: '14/03/2025',
+                    title: 'Denúncia registrada',
+                    description: 'Sua denúncia foi registrada com sucesso e está aguardando análise.'
+                }
+            ]
+        }
     };
+    
+    // Retornar dados da denúncia ou um objeto padrão se não encontrado
+    return reports[reportId] || {
+        title: 'Denúncia não encontrada',
+        address: 'Endereço não disponível',
+        date: 'Data não disponível',
+        status: 'Status desconhecido',
+        statusClass: '',
+        image: 'https://placehold.co/400x300/cccccc/666666/png?text=Não+encontrado',
+        updates: []
+    };
+}
 
-    const toggleLargeText = function() {
-        document.body.classList.toggle('large-text');
-    };
-});
+// Função para abrir modal de notificações
+function openNotifications() {
+    openModal('notifications-modal');
+}
+
+// Função para abrir modal de SOS
+function openSOS() {
+    openModal('sos-modal');
+}
+
+// Função para abrir modal de configurações
+function openSettings() {
+    openModal('settings-modal');
+}
+
+// Função para inicializar o carrossel de notícias
+function initNewsCarousel() {
+    const carousel = document.querySelector('.news-carousel');
+    if (!carousel) return;
+    
+    let currentIndex = 0;
+    const newsCards = carousel.querySelectorAll('.news-card');
+    const totalCards = newsCards.length;
+    
+    // Configurar posição inicial
+    updateCarouselPosition();
+    
+    // Configurar intervalo para rotação automática
+    setInterval(function() {
+        currentIndex = (currentIndex + 1) % totalCards;
+        updateCarouselPosition();
+    }, 5000);
+    
+    function updateCarouselPosition() {
+        const cardWidth = newsCards[0].offsetWidth;
+        carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+        
+        // Atualizar indicadores se existirem
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        if (indicators.length > 0) {
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === currentIndex);
+            });
+        }
+    }
+}

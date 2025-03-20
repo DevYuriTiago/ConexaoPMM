@@ -5,102 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conexão Município</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <!-- Tela de Splash/Login -->
+        <!-- Tela de Splash / Login -->
         <div id="splash-screen" class="screen active">
             <div class="splash-content">
-                <img src="https://placehold.co/200x200/1a73e8/ffffff?text=CM" alt="Logo Conexão Município" class="logo">
+                <img src="https://placehold.co/200x200/2196F3/FFFFFF/png?text=CM" alt="Logo Conexão Município" class="logo">
                 <h1>Conexão Município</h1>
-                <p>Conectando você à sua cidade</p>
+                <p>Sua cidade na palma da mão</p>
                 <div class="login-options">
-                    <button id="login-btn" class="btn primary-btn">Entrar</button>
-                    <button id="register-btn" class="btn secondary-btn">Cadastrar</button>
+                    <button id="login-btn" class="btn primary-btn">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                    <button class="btn secondary-btn">
+                        <i class="fas fa-user-plus"></i> Criar conta
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Tela Principal - Dashboard -->
+        <!-- Dashboard -->
         <div id="dashboard-screen" class="screen">
             <header>
                 <div class="user-info">
-                    <img src="https://placehold.co/50x50/cccccc/666666?text=User" alt="Avatar do usuário" class="user-avatar">
+                    <img src="https://placehold.co/100/2196F3/FFFFFF/png?text=U" alt="Avatar do usuário" class="user-avatar">
                     <span>Olá, Cidadão</span>
                 </div>
                 <div class="header-actions">
-                    <i class="fas fa-bell"></i>
-                    <i class="fas fa-cog"></i>
+                    <button class="icon-btn notifications-icon" onclick="openNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">2</span>
+                    </button>
+                    <button class="icon-btn settings-icon" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                    </button>
                 </div>
             </header>
 
-            <div class="main-content">
+            <div class="main-content animate-fadeInUp">
+                <!-- Notícias -->
                 <section class="news-section">
-                    <h2>Notícias e Avisos</h2>
+                    <h2>Notícias da Cidade</h2>
                     <div class="news-carousel">
                         <div class="news-card">
-                            <img src="https://placehold.co/300x150/34a853/ffffff?text=Vacinação" alt="Notícia 1">
+                            <img src="https://placehold.co/600x400/2196F3/FFFFFF/png?text=Notícia+1" alt="Notícia 1">
                             <div class="news-info">
-                                <h3>Campanha de Vacinação</h3>
-                                <p>Nova etapa começa na próxima semana</p>
+                                <h3>Campanha de vacinação começa hoje</h3>
+                                <p>Postos de saúde abertos das 8h às 17h para vacinação contra gripe.</p>
                             </div>
                         </div>
                         <div class="news-card">
-                            <img src="https://placehold.co/300x150/fbbc05/ffffff?text=Obras" alt="Notícia 2">
+                            <img src="https://placehold.co/600x400/4CAF50/FFFFFF/png?text=Notícia+2" alt="Notícia 2">
                             <div class="news-info">
                                 <h3>Obras na Avenida Principal</h3>
-                                <p>Confira os desvios recomendados</p>
+                                <p>Trânsito será desviado durante as obras de pavimentação.</p>
+                            </div>
+                        </div>
+                        <div class="news-card">
+                            <img src="https://placehold.co/600x400/FF5722/FFFFFF/png?text=Notícia+3" alt="Notícia 3">
+                            <div class="news-info">
+                                <h3>Festival de Cultura no Centro</h3>
+                                <p>Evento gratuito com música, dança e gastronomia local.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="quick-actions">
-                    <h2>Ações Rápidas</h2>
+                <!-- Ações Rápidas -->
+                <section>
+                    <h2>O que você precisa?</h2>
                     <div class="action-grid">
-                        <div class="action-card" id="btn-denuncias">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span>Denúncias</span>
+                        <div class="action-card" onclick="showScreen('reports-screen')">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>Fazer uma Denúncia</span>
                         </div>
-                        <div class="action-card" id="btn-agendamentos">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Agendamentos</span>
+                        <div class="action-card" onclick="showScreen('appointments-screen')">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Agendar Serviço</span>
                         </div>
-                        <div class="action-card" id="btn-mapa">
+                        <div class="action-card" onclick="showScreen('map-screen')">
                             <i class="fas fa-map-marked-alt"></i>
-                            <span>Mapa</span>
+                            <span>Ver Mapa da Cidade</span>
                         </div>
-                        <div class="action-card" id="btn-chat">
+                        <div class="action-card" onclick="showScreen('chat-screen')">
                             <i class="fas fa-comments"></i>
-                            <span>Atendimento</span>
+                            <span>Falar com a Prefeitura</span>
+                        </div>
+                        <div class="action-card sos-btn" onclick="openSOS()">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>Emergência</span>
                         </div>
                     </div>
                 </section>
 
-                <section class="status-section">
-                    <h2>Minhas Solicitações</h2>
+                <!-- Status das Solicitações -->
+                <section>
+                    <h2>Suas Solicitações</h2>
                     <div class="status-list">
-                        <div class="status-card">
+                        <div class="status-card" data-id="1" onclick="openReportDetails('1')">
                             <div class="status-icon pending">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="status-info">
                                 <h3>Buraco na Rua das Flores</h3>
-                                <p>Status: Em análise</p>
-                                <small>Enviado em: 10/03/2025</small>
+                                <p>Em análise pela Secretaria de Obras</p>
+                                <small>Enviado há 2 dias</small>
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </div>
-                        <div class="status-card">
+                        <div class="status-card" data-id="2" onclick="openReportDetails('2')">
                             <div class="status-icon completed">
                                 <i class="fas fa-check"></i>
                             </div>
                             <div class="status-info">
-                                <h3>Lâmpada Queimada</h3>
-                                <p>Status: Resolvido</p>
-                                <small>Concluído em: 08/03/2025</small>
+                                <h3>Lâmpada queimada</h3>
+                                <p>Problema resolvido</p>
+                                <small>Concluído em 15/03/2025</small>
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </div>
@@ -108,29 +131,31 @@
                 </section>
             </div>
 
-            <div class="sos-button">
-                <i class="fas fa-exclamation"></i>
+            <!-- Botão SOS -->
+            <div class="sos-button" onclick="openSOS()">
+                <i class="fas fa-phone-alt"></i>
                 <span>SOS</span>
             </div>
 
+            <!-- Navegação Inferior -->
             <nav class="bottom-nav">
-                <div class="nav-item active" data-screen="dashboard-screen">
+                <div class="nav-item active" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                 </div>
-                <div class="nav-item" data-screen="denuncias-screen">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="nav-item" onclick="showScreen('reports-screen')">
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Denúncias</span>
                 </div>
-                <div class="nav-item" data-screen="agendamentos-screen">
-                    <i class="fas fa-calendar-alt"></i>
+                <div class="nav-item" onclick="showScreen('appointments-screen')">
+                    <i class="fas fa-calendar-check"></i>
                     <span>Agendar</span>
                 </div>
-                <div class="nav-item" data-screen="mapa-screen">
+                <div class="nav-item" onclick="showScreen('map-screen')">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Mapa</span>
                 </div>
-                <div class="nav-item" data-screen="chat-screen">
+                <div class="nav-item" onclick="showScreen('chat-screen')">
                     <i class="fas fa-comments"></i>
                     <span>Chat</span>
                 </div>
@@ -138,102 +163,97 @@
         </div>
 
         <!-- Tela de Denúncias -->
-        <div id="denuncias-screen" class="screen">
-            <header class="screen-header">
-                <i class="fas fa-arrow-left back-btn"></i>
+        <div id="reports-screen" class="screen">
+            <div class="screen-header">
+                <div class="back-btn" onclick="showScreen('dashboard-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
                 <h2>Denúncias Urbanas</h2>
-            </header>
+            </div>
 
-            <div class="main-content">
-                <button class="btn primary-btn new-report-btn">
+            <div class="main-content animate-fadeInUp">
+                <button class="btn primary-btn new-report-btn" onclick="openModal('report-modal')">
                     <i class="fas fa-plus"></i> Nova Denúncia
                 </button>
 
-                <section class="categories-section">
-                    <h3>Categorias</h3>
-                    <div class="categories-grid">
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-road"></i>
-                            </div>
-                            <span>Buracos</span>
-                        </div>
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <span>Iluminação</span>
-                        </div>
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-trash"></i>
-                            </div>
-                            <span>Lixo</span>
-                        </div>
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-water"></i>
-                            </div>
-                            <span>Esgoto</span>
-                        </div>
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-traffic-light"></i>
-                            </div>
-                            <span>Trânsito</span>
-                        </div>
-                        <div class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-spray-can"></i>
-                            </div>
-                            <span>Vandalismo</span>
-                        </div>
+                <h3>Categorias</h3>
+                <div class="categories-grid">
+                    <div class="category-item">
+                        <i class="fas fa-road"></i>
+                        <span>Buracos</span>
                     </div>
-                </section>
+                    <div class="category-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Iluminação</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-trash"></i>
+                        <span>Lixo</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-water"></i>
+                        <span>Esgoto</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-traffic-light"></i>
+                        <span>Trânsito</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-spray-can"></i>
+                        <span>Vandalismo</span>
+                    </div>
+                </div>
 
-                <section class="my-reports-section">
-                    <h3>Minhas Denúncias</h3>
-                    <div class="reports-list">
-                        <div class="report-card">
-                            <img src="https://placehold.co/100x100/ea4335/ffffff?text=Buraco" alt="Denúncia" class="report-img">
-                            <div class="report-info">
-                                <h4>Buraco na Rua das Flores</h4>
-                                <p class="report-status pending">Em análise</p>
-                                <p class="report-date">10/03/2025</p>
+                <h3>Suas Denúncias</h3>
+                <div class="report-list">
+                    <div class="report-card" data-id="1" onclick="openReportDetails('1')">
+                        <img src="https://placehold.co/200x200/2196F3/FFFFFF/png?text=Buraco" alt="Imagem da denúncia" class="report-img">
+                        <div class="report-details">
+                            <div>
+                                <h3>Buraco na Rua das Flores</h3>
+                                <p>Buraco grande próximo ao número 123</p>
                             </div>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="report-card">
-                            <img src="https://placehold.co/100x100/fbbc05/ffffff?text=Lâmpada" alt="Denúncia" class="report-img">
-                            <div class="report-info">
-                                <h4>Lâmpada Queimada</h4>
-                                <p class="report-status completed">Resolvido</p>
-                                <p class="report-date">08/03/2025</p>
+                            <div class="report-meta">
+                                <span class="report-date">18/03/2025</span>
+                                <span class="report-status status-pending">Em análise</span>
                             </div>
-                            <i class="fas fa-chevron-right"></i>
                         </div>
                     </div>
-                </section>
+                    <div class="report-card" data-id="2" onclick="openReportDetails('2')">
+                        <img src="https://placehold.co/200x200/4CAF50/FFFFFF/png?text=Lâmpada" alt="Imagem da denúncia" class="report-img">
+                        <div class="report-details">
+                            <div>
+                                <h3>Lâmpada queimada</h3>
+                                <p>Poste na Av. Principal, em frente ao mercado</p>
+                            </div>
+                            <div class="report-meta">
+                                <span class="report-date">15/03/2025</span>
+                                <span class="report-status status-completed">Resolvido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Navegação Inferior -->
             <nav class="bottom-nav">
-                <div class="nav-item" data-screen="dashboard-screen">
+                <div class="nav-item" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                 </div>
-                <div class="nav-item active" data-screen="denuncias-screen">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="nav-item active" onclick="showScreen('reports-screen')">
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Denúncias</span>
                 </div>
-                <div class="nav-item" data-screen="agendamentos-screen">
-                    <i class="fas fa-calendar-alt"></i>
+                <div class="nav-item" onclick="showScreen('appointments-screen')">
+                    <i class="fas fa-calendar-check"></i>
                     <span>Agendar</span>
                 </div>
-                <div class="nav-item" data-screen="mapa-screen">
+                <div class="nav-item" onclick="showScreen('map-screen')">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Mapa</span>
                 </div>
-                <div class="nav-item" data-screen="chat-screen">
+                <div class="nav-item" onclick="showScreen('chat-screen')">
                     <i class="fas fa-comments"></i>
                     <span>Chat</span>
                 </div>
@@ -241,272 +261,337 @@
         </div>
 
         <!-- Tela de Agendamentos -->
-        <div id="agendamentos-screen" class="screen">
-            <header class="screen-header">
-                <i class="fas fa-arrow-left back-btn"></i>
-                <h2>Agendamentos</h2>
-            </header>
-
-            <div class="main-content">
-                <section class="services-section">
-                    <h3>Selecione o Serviço</h3>
-                    <div class="services-grid">
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-heartbeat"></i>
-                            </div>
-                            <span>Saúde</span>
-                        </div>
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-id-card"></i>
-                            </div>
-                            <span>Documentos</span>
-                        </div>
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-hands-helping"></i>
-                            </div>
-                            <span>CRAS</span>
-                        </div>
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-file-signature"></i>
-                            </div>
-                            <span>Licenças</span>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="calendar-section">
-                    <h3>Selecione a Data</h3>
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <i class="fas fa-chevron-left"></i>
-                            <h4>Março 2025</h4>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="weekdays">
-                            <div>Dom</div>
-                            <div>Seg</div>
-                            <div>Ter</div>
-                            <div>Qua</div>
-                            <div>Qui</div>
-                            <div>Sex</div>
-                            <div>Sáb</div>
-                        </div>
-                        <div class="calendar-days">
-                            <!-- Dias do calendário serão gerados via JavaScript -->
-                        </div>
-                    </div>
-                </section>
-
-                <section class="time-slots-section">
-                    <h3>Horários Disponíveis</h3>
-                    <div class="time-slots">
-                        <div class="time-slot">08:00</div>
-                        <div class="time-slot">09:00</div>
-                        <div class="time-slot">10:00</div>
-                        <div class="time-slot">11:00</div>
-                        <div class="time-slot">13:00</div>
-                        <div class="time-slot">14:00</div>
-                        <div class="time-slot">15:00</div>
-                        <div class="time-slot">16:00</div>
-                    </div>
-                </section>
-
-                <button class="btn primary-btn confirm-btn">Confirmar Agendamento</button>
+        <div id="appointments-screen" class="screen">
+            <div class="screen-header">
+                <div class="back-btn" onclick="showScreen('dashboard-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <h2>Agendar Serviços</h2>
             </div>
 
+            <div class="main-content animate-fadeInUp">
+                <h3>Escolha o tipo de serviço</h3>
+                <div class="action-grid">
+                    <div class="action-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Saúde</span>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-id-card"></i>
+                        <span>Documentos</span>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-hands-helping"></i>
+                        <span>Assistência Social</span>
+                    </div>
+                    <div class="action-card">
+                        <i class="fas fa-file-signature"></i>
+                        <span>Licenças</span>
+                    </div>
+                </div>
+
+                <h3>Escolha uma data</h3>
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <div class="calendar-title">Março 2025</div>
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="calendar-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <div class="weekday">Dom</div>
+                        <div class="weekday">Seg</div>
+                        <div class="weekday">Ter</div>
+                        <div class="weekday">Qua</div>
+                        <div class="weekday">Qui</div>
+                        <div class="weekday">Sex</div>
+                        <div class="weekday">Sáb</div>
+                    </div>
+                    <div class="calendar-days">
+                        <div class="calendar-day disabled">23</div>
+                        <div class="calendar-day disabled">24</div>
+                        <div class="calendar-day disabled">25</div>
+                        <div class="calendar-day disabled">26</div>
+                        <div class="calendar-day disabled">27</div>
+                        <div class="calendar-day disabled">28</div>
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day">7</div>
+                        <div class="calendar-day">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day">14</div>
+                        <div class="calendar-day">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day">19</div>
+                        <div class="calendar-day active">20</div>
+                        <div class="calendar-day">21</div>
+                        <div class="calendar-day">22</div>
+                        <div class="calendar-day">23</div>
+                        <div class="calendar-day">24</div>
+                        <div class="calendar-day">25</div>
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day">30</div>
+                        <div class="calendar-day">31</div>
+                        <div class="calendar-day disabled">1</div>
+                        <div class="calendar-day disabled">2</div>
+                        <div class="calendar-day disabled">3</div>
+                    </div>
+                </div>
+
+                <h3>Horários disponíveis</h3>
+                <div class="time-slots">
+                    <div class="time-slot">08:00</div>
+                    <div class="time-slot">09:00</div>
+                    <div class="time-slot active">10:00</div>
+                    <div class="time-slot">11:00</div>
+                    <div class="time-slot">13:00</div>
+                    <div class="time-slot">14:00</div>
+                    <div class="time-slot disabled">15:00</div>
+                    <div class="time-slot">16:00</div>
+                    <div class="time-slot">17:00</div>
+                </div>
+
+                <button class="btn primary-btn confirm-btn" onclick="openModal('appointment-modal')">
+                    Confirmar Agendamento
+                </button>
+            </div>
+
+            <!-- Navegação Inferior -->
             <nav class="bottom-nav">
-                <div class="nav-item" data-screen="dashboard-screen">
+                <div class="nav-item" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                 </div>
-                <div class="nav-item" data-screen="denuncias-screen">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="nav-item" onclick="showScreen('reports-screen')">
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Denúncias</span>
                 </div>
-                <div class="nav-item active" data-screen="agendamentos-screen">
-                    <i class="fas fa-calendar-alt"></i>
+                <div class="nav-item active" onclick="showScreen('appointments-screen')">
+                    <i class="fas fa-calendar-check"></i>
                     <span>Agendar</span>
                 </div>
-                <div class="nav-item" data-screen="mapa-screen">
+                <div class="nav-item" onclick="showScreen('map-screen')">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Mapa</span>
                 </div>
-                <div class="nav-item" data-screen="chat-screen">
+                <div class="nav-item" onclick="showScreen('chat-screen')">
                     <i class="fas fa-comments"></i>
                     <span>Chat</span>
                 </div>
             </nav>
         </div>
 
-        <!-- Tela de Mapa Interativo -->
-        <div id="mapa-screen" class="screen">
-            <header class="screen-header">
-                <i class="fas fa-arrow-left back-btn"></i>
-                <h2>Mapa Interativo</h2>
-            </header>
+        <!-- Tela de Mapa -->
+        <div id="map-screen" class="screen">
+            <div class="screen-header">
+                <div class="back-btn" onclick="showScreen('dashboard-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <h2>Mapa da Cidade</h2>
+            </div>
 
-            <div class="main-content">
+            <div class="main-content animate-fadeInUp">
                 <div class="map-filters">
-                    <div class="filter-item active">Todos</div>
-                    <div class="filter-item">Buracos</div>
-                    <div class="filter-item">Iluminação</div>
-                    <div class="filter-item">Lixo</div>
-                    <div class="filter-item">Esgoto</div>
+                    <div class="filter-chip active">Todos</div>
+                    <div class="filter-chip">Buracos</div>
+                    <div class="filter-chip">Iluminação</div>
+                    <div class="filter-chip">Lixo</div>
+                    <div class="filter-chip">Esgoto</div>
+                    <div class="filter-chip">Trânsito</div>
+                    <div class="filter-chip">Vandalismo</div>
                 </div>
 
                 <div class="map-container">
-                    <img src="https://placehold.co/600x400/cccccc/666666?text=Mapa+da+Cidade" alt="Mapa da cidade" class="map-image">
-                    <!-- Marcadores serão adicionados via JavaScript -->
-                    <div class="map-marker" style="top: 30%; left: 40%;" data-type="buraco">
-                        <i class="fas fa-road"></i>
-                    </div>
-                    <div class="map-marker" style="top: 50%; left: 60%;" data-type="iluminacao">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="map-marker" style="top: 70%; left: 30%;" data-type="lixo">
-                        <i class="fas fa-trash"></i>
+                    <div class="interactive-map">
+                        <img src="https://placehold.co/600x400/2196F3/FFFFFF/png?text=Mapa+da+Cidade" alt="Mapa da Cidade" class="map-image">
+                        
+                        <!-- Pontos de denúncia no mapa -->
+                        <div class="map-marker" style="top: 30%; left: 40%;" data-id="1" onclick="openReportDetails('1')">
+                            <div class="marker-icon pending">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="marker-tooltip">
+                                <strong>Buraco na Rua das Flores</strong>
+                                <span>Em análise</span>
+                            </div>
+                        </div>
+                        
+                        <div class="map-marker" style="top: 50%; left: 60%;" data-id="2" onclick="openReportDetails('2')">
+                            <div class="marker-icon completed">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="marker-tooltip">
+                                <strong>Lâmpada queimada</strong>
+                                <span>Resolvido</span>
+                            </div>
+                        </div>
+                        
+                        <div class="map-marker" style="top: 65%; left: 25%;" data-id="3" onclick="openReportDetails('3')">
+                            <div class="marker-icon" style="background-color: var(--primary-color);">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <div class="marker-tooltip">
+                                <strong>Lixo acumulado</strong>
+                                <span>Em andamento</span>
+                            </div>
+                        </div>
+                        
+                        <div class="map-marker" style="top: 20%; left: 75%;" data-id="4" onclick="openReportDetails('4')">
+                            <div class="marker-icon pending">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="marker-tooltip">
+                                <strong>Vazamento de água</strong>
+                                <span>Em análise</span>
+                            </div>
+                        </div>
+                        
+                        <div class="map-marker" style="top: 80%; left: 50%;" data-id="5" onclick="openReportDetails('5')">
+                            <div class="marker-icon completed">
+                                <i class="fas fa-traffic-light"></i>
+                            </div>
+                            <div class="marker-tooltip">
+                                <strong>Semáforo quebrado</strong>
+                                <span>Resolvido</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="map-legend">
-                    <div class="legend-item">
-                        <div class="legend-icon pending"></div>
-                        <span>Em análise</span>
+                <h3>Legenda</h3>
+                <div class="status-list">
+                    <div class="status-card">
+                        <div class="status-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="status-info">
+                            <h3>Em análise</h3>
+                            <p>Denúncias que estão sendo verificadas</p>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-icon in-progress"></div>
-                        <span>Em andamento</span>
+                    <div class="status-card">
+                        <div class="status-icon" style="background-color: var(--primary-color);">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="status-info">
+                            <h3>Em andamento</h3>
+                            <p>Equipes trabalhando na solução</p>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-icon completed"></div>
-                        <span>Resolvido</span>
+                    <div class="status-card">
+                        <div class="status-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="status-info">
+                            <h3>Resolvido</h3>
+                            <p>Problemas já solucionados</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Navegação Inferior -->
             <nav class="bottom-nav">
-                <div class="nav-item" data-screen="dashboard-screen">
+                <div class="nav-item" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                 </div>
-                <div class="nav-item" data-screen="denuncias-screen">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="nav-item" onclick="showScreen('reports-screen')">
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Denúncias</span>
                 </div>
-                <div class="nav-item" data-screen="agendamentos-screen">
-                    <i class="fas fa-calendar-alt"></i>
+                <div class="nav-item" onclick="showScreen('appointments-screen')">
+                    <i class="fas fa-calendar-check"></i>
                     <span>Agendar</span>
                 </div>
-                <div class="nav-item active" data-screen="mapa-screen">
+                <div class="nav-item active" onclick="showScreen('map-screen')">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Mapa</span>
                 </div>
-                <div class="nav-item" data-screen="chat-screen">
+                <div class="nav-item" onclick="showScreen('chat-screen')">
                     <i class="fas fa-comments"></i>
                     <span>Chat</span>
                 </div>
             </nav>
         </div>
 
-        <!-- Tela de Chat/Atendimento -->
+        <!-- Tela de Chat -->
         <div id="chat-screen" class="screen">
-            <header class="screen-header">
-                <i class="fas fa-arrow-left back-btn"></i>
-                <h2>Atendimento</h2>
-            </header>
+            <div class="screen-header">
+                <div class="back-btn" onclick="showScreen('dashboard-screen')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <h2>Fale com a Prefeitura</h2>
+            </div>
 
-            <div class="main-content">
-                <div class="chat-options">
-                    <div class="chat-option">
-                        <i class="fas fa-robot"></i>
-                        <h3>Atendimento Virtual</h3>
-                        <p>Tire dúvidas com nosso assistente virtual</p>
-                        <button class="btn secondary-btn">Iniciar</button>
+            <div class="chat-container">
+                <div class="chat-messages">
+                    <div class="message message-bot">
+                        <div>Olá! Como posso ajudar você hoje?</div>
+                        <div class="message-time">10:30</div>
                     </div>
-                    <div class="chat-option">
-                        <i class="fas fa-headset"></i>
-                        <h3>Atendimento Humano</h3>
-                        <p>Fale com um de nossos atendentes</p>
-                        <button class="btn secondary-btn">Iniciar</button>
+                    <div class="message message-user">
+                        <div>Olá, preciso de informações sobre a coleta de lixo no meu bairro.</div>
+                        <div class="message-time">10:31</div>
+                    </div>
+                    <div class="message message-bot">
+                        <div>Claro! Em qual bairro você mora?</div>
+                        <div class="message-time">10:31</div>
+                    </div>
+                    <div class="message message-user">
+                        <div>Moro no Jardim das Flores.</div>
+                        <div class="message-time">10:32</div>
+                    </div>
+                    <div class="message message-bot">
+                        <div>No Jardim das Flores, a coleta de lixo comum acontece às segundas, quartas e sextas, a partir das 8h. A coleta seletiva é realizada às terças-feiras.</div>
+                        <div class="message-time">10:32</div>
+                    </div>
+                    <div class="message message-bot">
+                        <div>Posso ajudar com mais alguma informação?</div>
+                        <div class="message-time">10:33</div>
                     </div>
                 </div>
-
-                <div class="chat-container">
-                    <div class="chat-messages">
-                        <div class="message system">
-                            <div class="message-content">
-                                Bem-vindo ao atendimento da Prefeitura. Como posso ajudar?
-                            </div>
-                            <div class="message-time">14:00</div>
-                        </div>
-                        <div class="message user">
-                            <div class="message-content">
-                                Olá, gostaria de saber como obter a segunda via do IPTU.
-                            </div>
-                            <div class="message-time">14:01</div>
-                        </div>
-                        <div class="message system">
-                            <div class="message-content">
-                                Para obter a segunda via do IPTU, você pode acessar o portal do cidadão no site da prefeitura ou comparecer ao setor de tributos com seus documentos pessoais.
-                            </div>
-                            <div class="message-time">14:02</div>
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" placeholder="Digite sua mensagem...">
-                        <button class="send-btn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="faq-section">
-                    <h3>Perguntas Frequentes</h3>
-                    <div class="faq-list">
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Como obter certidão negativa de débitos?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                Você pode solicitar a certidão negativa de débitos através do portal do cidadão ou presencialmente no setor de tributos da prefeitura.
-                            </div>
-                        </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Qual o horário de funcionamento da prefeitura?</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="faq-answer">
-                                A prefeitura funciona de segunda a sexta-feira, das 8h às 17h.
-                            </div>
-                        </div>
-                    </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Digite sua mensagem...">
+                    <button class="chat-send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
 
+            <!-- Navegação Inferior -->
             <nav class="bottom-nav">
-                <div class="nav-item" data-screen="dashboard-screen">
+                <div class="nav-item" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                 </div>
-                <div class="nav-item" data-screen="denuncias-screen">
-                    <i class="fas fa-exclamation-triangle"></i>
+                <div class="nav-item" onclick="showScreen('reports-screen')">
+                    <i class="fas fa-exclamation-circle"></i>
                     <span>Denúncias</span>
                 </div>
-                <div class="nav-item" data-screen="agendamentos-screen">
-                    <i class="fas fa-calendar-alt"></i>
+                <div class="nav-item" onclick="showScreen('appointments-screen')">
+                    <i class="fas fa-calendar-check"></i>
                     <span>Agendar</span>
                 </div>
-                <div class="nav-item" data-screen="mapa-screen">
+                <div class="nav-item" onclick="showScreen('map-screen')">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Mapa</span>
                 </div>
-                <div class="nav-item active" data-screen="chat-screen">
+                <div class="nav-item active" onclick="showScreen('chat-screen')">
                     <i class="fas fa-comments"></i>
                     <span>Chat</span>
                 </div>
@@ -514,84 +599,304 @@
         </div>
 
         <!-- Modal de Nova Denúncia -->
-        <div id="new-report-modal" class="modal">
-            <div class="modal-content">
+        <div id="report-modal" class="modal-overlay">
+            <div class="modal">
                 <div class="modal-header">
-                    <h3>Nova Denúncia</h3>
-                    <i class="fas fa-times close-modal"></i>
+                    <h3 class="modal-title">Nova Denúncia</h3>
+                    <button class="modal-close" onclick="closeModal('report-modal')">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Categoria</label>
-                        <select>
-                            <option>Selecione uma categoria</option>
-                            <option>Buracos</option>
-                            <option>Iluminação Pública</option>
-                            <option>Lixo</option>
-                            <option>Esgoto Aberto</option>
-                            <option>Trânsito</option>
+                        <label class="form-label">Tipo de Problema</label>
+                        <select class="form-select">
+                            <option>Selecione o tipo</option>
+                            <option>Buraco na via</option>
+                            <option>Iluminação pública</option>
+                            <option>Lixo acumulado</option>
+                            <option>Problema no esgoto</option>
+                            <option>Sinalização de trânsito</option>
                             <option>Vandalismo</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Descrição do Problema</label>
-                        <textarea placeholder="Descreva o problema..."></textarea>
+                        <label class="form-label">Descrição</label>
+                        <textarea class="form-textarea" placeholder="Descreva o problema com detalhes"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Adicionar Foto</label>
-                        <div class="photo-upload">
-                            <i class="fas fa-camera"></i>
-                            <span>Toque para adicionar</span>
-                        </div>
+                        <label class="form-label">Localização</label>
+                        <input type="text" class="form-control" placeholder="Endereço completo">
                     </div>
                     <div class="form-group">
-                        <label>Localização</label>
-                        <div class="location-input">
-                            <input type="text" placeholder="Endereço do problema" readonly>
-                            <i class="fas fa-map-marker-alt"></i>
+                        <label class="form-label">Foto</label>
+                        <div class="form-file">
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label">
+                                    <i class="fas fa-camera"></i> Tirar foto ou selecionar do dispositivo
+                                    <input type="file" class="file-input" accept="image/*">
+                                </label>
+                            </div>
                         </div>
-                        <small>Usando sua localização atual</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn secondary-btn">Cancelar</button>
+                    <button class="btn secondary-btn" onclick="closeModal('report-modal')">Cancelar</button>
                     <button class="btn primary-btn">Enviar Denúncia</button>
                 </div>
             </div>
         </div>
 
         <!-- Modal de Confirmação de Agendamento -->
-        <div id="appointment-confirmation-modal" class="modal">
-            <div class="modal-content">
+        <div id="appointment-modal" class="modal-overlay">
+            <div class="modal">
                 <div class="modal-header">
-                    <h3>Confirmação de Agendamento</h3>
-                    <i class="fas fa-times close-modal"></i>
+                    <h3 class="modal-title">Agendamento Confirmado</h3>
+                    <button class="modal-close" onclick="closeModal('appointment-modal')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="confirmation-details">
+                    <div class="qr-container">
                         <div class="qr-code">
-                            <img src="https://placehold.co/150x150/1a73e8/ffffff?text=QR+Code" alt="QR Code">
+                            <img src="https://placehold.co/200/2196F3/FFFFFF/png?text=QR+Code" alt="QR Code" style="width: 100%; height: 100%;">
                         </div>
-                        <div class="appointment-info">
-                            <p><strong>Serviço:</strong> Atendimento Médico</p>
-                            <p><strong>Data:</strong> 20/03/2025</p>
-                            <p><strong>Horário:</strong> 10:00</p>
-                            <p><strong>Local:</strong> UBS Central</p>
+                        <div class="qr-info">
+                            <h3>Serviço: Saúde</h3>
+                            <p>Data: 20/03/2025</p>
+                            <p>Horário: 10:00</p>
+                            <p>Local: Unidade Central</p>
                         </div>
                     </div>
-                    <div class="confirmation-message">
-                        <i class="fas fa-check-circle"></i>
-                        <p>Seu agendamento foi confirmado!</p>
-                        <small>Apresente este QR Code no local de atendimento</small>
-                    </div>
+                    <p style="text-align: center; margin-bottom: 1rem;">
+                        Apresente este QR Code na recepção para confirmar sua presença.
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn secondary-btn">Adicionar ao Calendário</button>
-                    <button class="btn primary-btn">Concluir</button>
+                    <button class="btn primary-btn" onclick="closeModal('appointment-modal')">OK</button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Modal de Configurações -->
+        <div id="settings-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Configurações</h3>
+                    <button class="modal-close" onclick="closeModal('settings-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h4>Perfil</h4>
+                        <div class="form-group">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" value="Maria Silva">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">E-mail</label>
+                            <input type="email" class="form-control" value="maria.silva@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" value="(11) 98765-4321">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h4>Notificações</h4>
+                        <div class="toggle-option">
+                            <span>Notificações por e-mail</span>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-option">
+                            <span>Notificações por SMS</span>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-option">
+                            <span>Notificações push</span>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h4>Acessibilidade</h4>
+                        <div class="toggle-option">
+                            <span>Alto contraste</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="high-contrast-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-option">
+                            <span>Texto ampliado</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="large-text-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-option">
+                            <span>Reduzir animações</span>
+                            <label class="toggle">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary-btn" onclick="closeModal('settings-modal')">Cancelar</button>
+                    <button class="btn primary-btn">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Detalhes da Denúncia -->
+        <div id="report-details-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Detalhes da Denúncia</h3>
+                    <button class="modal-close" onclick="closeModal('report-details-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="report-image">
+                        <img src="https://placehold.co/400x300/2196F3/FFFFFF/png?text=Buraco" alt="Imagem da denúncia">
+                        <div class="report-status status-pending">Em análise</div>
+                    </div>
+                    
+                    <div class="report-detail-info">
+                        <h3 class="report-title">Buraco na Rua das Flores</h3>
+                        <p class="report-date"><i class="fas fa-calendar-alt"></i> Enviado em 18/03/2025</p>
+                        <p class="report-address"><i class="fas fa-map-marker-alt"></i> Rua das Flores, 123 - Centro</p>
+                        
+                        <div class="detail-section">
+                            <h4>Descrição</h4>
+                            <p>Buraco grande no asfalto, com aproximadamente 80cm de diâmetro e 15cm de profundidade. Está causando risco de acidentes, especialmente para motociclistas.</p>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>Atualizações</h4>
+                            <div class="report-timeline">
+                                <!-- Timeline items serão adicionados dinamicamente pelo JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary-btn">Compartilhar</button>
+                    <button class="btn primary-btn">Adicionar Comentário</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Notificações -->
+        <div id="notifications-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Notificações</h3>
+                    <button class="modal-close" onclick="closeModal('notifications-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="notifications-list">
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Denúncia atualizada</h4>
+                                <p>Sua denúncia sobre "Lâmpada queimada" foi resolvida.</p>
+                                <small>Hoje, 10:45</small>
+                            </div>
+                        </div>
+                        <div class="notification-item unread">
+                            <div class="notification-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Lembrete de agendamento</h4>
+                                <p>Você tem um agendamento amanhã às 10:00.</p>
+                                <small>Hoje, 09:30</small>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Novos serviços disponíveis</h4>
+                                <p>Agora você pode agendar serviços de documentação online.</p>
+                                <small>Ontem, 14:20</small>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <h4>Alerta de manutenção</h4>
+                                <p>O aplicativo estará em manutenção no dia 25/03 das 23h às 5h.</p>
+                                <small>15/03/2025, 11:15</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary-btn">Marcar todas como lidas</button>
+                    <button class="btn primary-btn" onclick="closeModal('notifications-modal')">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de SOS -->
+        <div id="sos-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header emergency">
+                    <h3 class="modal-title">Emergência</h3>
+                    <button class="modal-close" onclick="closeModal('sos-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="sos-options">
+                        <div class="sos-option">
+                            <i class="fas fa-ambulance"></i>
+                            <h4>SAMU</h4>
+                            <p>Emergências médicas</p>
+                            <a href="tel:192" class="btn danger-btn">Ligar 192</a>
+                        </div>
+                        <div class="sos-option">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Polícia</h4>
+                            <p>Emergências policiais</p>
+                            <a href="tel:190" class="btn danger-btn">Ligar 190</a>
+                        </div>
+                        <div class="sos-option">
+                            <i class="fas fa-fire"></i>
+                            <h4>Bombeiros</h4>
+                            <p>Incêndios e resgates</p>
+                            <a href="tel:193" class="btn danger-btn">Ligar 193</a>
+                        </div>
+                        <div class="sos-option">
+                            <i class="fas fa-hard-hat"></i>
+                            <h4>Defesa Civil</h4>
+                            <p>Desastres naturais</p>
+                            <a href="tel:199" class="btn danger-btn">Ligar 199</a>
+                        </div>
+                    </div>
+                    <div class="sos-location">
+                        <button class="btn secondary-btn full-width">
+                            <i class="fas fa-map-marker-alt"></i> Compartilhar minha localização
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn primary-btn full-width" onclick="closeModal('sos-modal')">Fechar</button>
+                </div>
+            </div>
+        </div>
 
     <script src="js/app.js"></script>
 </body>
