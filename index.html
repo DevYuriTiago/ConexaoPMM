@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Meta tags de proteção -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Aplicativo oficial da Prefeitura para conectar cidadãos aos serviços municipais">
 </head>
 <body>
     <div id="app">
@@ -49,27 +52,37 @@
                 <!-- Notícias -->
                 <section class="news-section">
                     <h2>Notícias da Cidade</h2>
-                    <div class="news-carousel">
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/2196F3/FFFFFF/png?text=Notícia+1" alt="Notícia 1">
-                            <div class="news-info">
-                                <h3>Campanha de vacinação começa hoje</h3>
-                                <p>Postos de saúde abertos das 8h às 17h para vacinação contra gripe.</p>
+                    <div class="news-carousel-container">
+                        <div class="news-carousel">
+                            <div class="news-card active">
+                                <div class="news-image" style="background-image: url('https://placehold.co/600x400/2196F3/FFFFFF/png?text=Notícia+1')"></div>
+                                <div class="news-content">
+                                    <h3>Prefeitura anuncia novo programa de habitação</h3>
+                                    <p>Famílias de baixa renda poderão se inscrever a partir do próximo mês.</p>
+                                    <span class="news-date">20/03/2025</span>
+                                </div>
+                            </div>
+                            <div class="news-card">
+                                <div class="news-image" style="background-image: url('https://placehold.co/600x400/4CAF50/FFFFFF/png?text=Notícia+2')"></div>
+                                <div class="news-content">
+                                    <h3>Campanha de vacinação contra gripe começa na próxima semana</h3>
+                                    <p>Postos de saúde estarão abertos em horário estendido.</p>
+                                    <span class="news-date">18/03/2025</span>
+                                </div>
+                            </div>
+                            <div class="news-card">
+                                <div class="news-image" style="background-image: url('https://placehold.co/600x400/FF9800/FFFFFF/png?text=Notícia+3')"></div>
+                                <div class="news-content">
+                                    <h3>Obras de pavimentação na zona norte são concluídas</h3>
+                                    <p>Mais de 10 km de vias foram asfaltadas nos últimos três meses.</p>
+                                    <span class="news-date">15/03/2025</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/4CAF50/FFFFFF/png?text=Notícia+2" alt="Notícia 2">
-                            <div class="news-info">
-                                <h3>Obras na Avenida Principal</h3>
-                                <p>Trânsito será desviado durante as obras de pavimentação.</p>
-                            </div>
-                        </div>
-                        <div class="news-card">
-                            <img src="https://placehold.co/600x400/FF5722/FFFFFF/png?text=Notícia+3" alt="Notícia 3">
-                            <div class="news-info">
-                                <h3>Festival de Cultura no Centro</h3>
-                                <p>Evento gratuito com música, dança e gastronomia local.</p>
-                            </div>
+                        <div class="carousel-indicators">
+                            <span class="carousel-indicator active"></span>
+                            <span class="carousel-indicator"></span>
+                            <span class="carousel-indicator"></span>
                         </div>
                     </div>
                 </section>
@@ -270,104 +283,64 @@
             </div>
 
             <div class="main-content animate-fadeInUp">
-                <h3>Escolha o tipo de serviço</h3>
-                <div class="action-grid">
-                    <div class="action-card">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>Saúde</span>
-                    </div>
-                    <div class="action-card">
-                        <i class="fas fa-id-card"></i>
-                        <span>Documentos</span>
-                    </div>
-                    <div class="action-card">
-                        <i class="fas fa-hands-helping"></i>
-                        <span>Assistência Social</span>
-                    </div>
-                    <div class="action-card">
-                        <i class="fas fa-file-signature"></i>
-                        <span>Licenças</span>
-                    </div>
-                </div>
-
-                <h3>Escolha uma data</h3>
-                <div class="calendar">
-                    <div class="calendar-header">
-                        <div class="calendar-title">Março 2025</div>
-                        <div class="calendar-nav">
-                            <button class="calendar-nav-btn"><i class="fas fa-chevron-left"></i></button>
-                            <button class="calendar-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                <h2>Agendar Serviço</h2>
+                <div class="service-select">
+                    <div class="action-grid">
+                        <div class="action-card">
+                            <i class="fas fa-heartbeat"></i>
+                            <span>Saúde</span>
+                        </div>
+                        <div class="action-card">
+                            <i class="fas fa-id-card"></i>
+                            <span>Documentos</span>
+                        </div>
+                        <div class="action-card active">
+                            <i class="fas fa-hands-helping"></i>
+                            <span>CRAS</span>
+                        </div>
+                        <div class="action-card">
+                            <i class="fas fa-file-signature"></i>
+                            <span>Licenças</span>
                         </div>
                     </div>
-                    <div class="calendar-weekdays">
-                        <div class="weekday">Dom</div>
-                        <div class="weekday">Seg</div>
-                        <div class="weekday">Ter</div>
-                        <div class="weekday">Qua</div>
-                        <div class="weekday">Qui</div>
-                        <div class="weekday">Sex</div>
-                        <div class="weekday">Sáb</div>
-                    </div>
-                    <div class="calendar-days">
-                        <div class="calendar-day disabled">23</div>
-                        <div class="calendar-day disabled">24</div>
-                        <div class="calendar-day disabled">25</div>
-                        <div class="calendar-day disabled">26</div>
-                        <div class="calendar-day disabled">27</div>
-                        <div class="calendar-day disabled">28</div>
-                        <div class="calendar-day">1</div>
-                        <div class="calendar-day">2</div>
-                        <div class="calendar-day">3</div>
-                        <div class="calendar-day">4</div>
-                        <div class="calendar-day">5</div>
-                        <div class="calendar-day">6</div>
-                        <div class="calendar-day">7</div>
-                        <div class="calendar-day">8</div>
-                        <div class="calendar-day">9</div>
-                        <div class="calendar-day">10</div>
-                        <div class="calendar-day">11</div>
-                        <div class="calendar-day">12</div>
-                        <div class="calendar-day">13</div>
-                        <div class="calendar-day">14</div>
-                        <div class="calendar-day">15</div>
-                        <div class="calendar-day">16</div>
-                        <div class="calendar-day">17</div>
-                        <div class="calendar-day">18</div>
-                        <div class="calendar-day">19</div>
-                        <div class="calendar-day active">20</div>
-                        <div class="calendar-day">21</div>
-                        <div class="calendar-day">22</div>
-                        <div class="calendar-day">23</div>
-                        <div class="calendar-day">24</div>
-                        <div class="calendar-day">25</div>
-                        <div class="calendar-day">26</div>
-                        <div class="calendar-day">27</div>
-                        <div class="calendar-day">28</div>
-                        <div class="calendar-day">29</div>
-                        <div class="calendar-day">30</div>
-                        <div class="calendar-day">31</div>
-                        <div class="calendar-day disabled">1</div>
-                        <div class="calendar-day disabled">2</div>
-                        <div class="calendar-day disabled">3</div>
+                </div>
+
+                <div class="calendar-section">
+                    <h3>Selecione a Data</h3>
+                    <div class="calendar-container dark-theme">
+                        <div class="calendar-header">
+                            <i class="fas fa-chevron-left"></i>
+                            <h4>Março 2025</h4>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="weekdays">
+                            <div>Dom</div>
+                            <div>Seg</div>
+                            <div>Ter</div>
+                            <div>Qua</div>
+                            <div>Qui</div>
+                            <div>Sex</div>
+                            <div>Sáb</div>
+                        </div>
+                        <div class="calendar-days">
+                            <!-- Dias do calendário serão gerados via JavaScript -->
+                        </div>
                     </div>
                 </div>
 
-                <h3>Horários disponíveis</h3>
+                <h3>Horários Disponíveis</h3>
                 <div class="time-slots">
-                    <div class="time-slot">08:00</div>
+                    <div class="time-slot active">08:00</div>
                     <div class="time-slot">09:00</div>
-                    <div class="time-slot active">10:00</div>
+                    <div class="time-slot">10:00</div>
                     <div class="time-slot">11:00</div>
-                    <div class="time-slot">13:00</div>
-                    <div class="time-slot">14:00</div>
-                    <div class="time-slot disabled">15:00</div>
-                    <div class="time-slot">16:00</div>
-                    <div class="time-slot">17:00</div>
                 </div>
-
-                <button class="btn primary-btn confirm-btn" onclick="openModal('appointment-modal')">
-                    Confirmar Agendamento
-                </button>
+                
+                <div class="appointment-action">
+                    <button class="btn primary-btn appointment-confirm-btn">
+                        <i class="fas fa-check-circle"></i> Confirmar Agendamento
+                    </button>
+                </div>
             </div>
 
             <!-- Navegação Inferior -->
@@ -401,18 +374,26 @@
                 <div class="back-btn" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-arrow-left"></i>
                 </div>
-                <h2>Mapa da Cidade</h2>
+                <h2>Mapa Interativo</h2>
             </div>
 
             <div class="main-content animate-fadeInUp">
                 <div class="map-filters">
-                    <div class="filter-chip active">Todos</div>
-                    <div class="filter-chip">Buracos</div>
-                    <div class="filter-chip">Iluminação</div>
-                    <div class="filter-chip">Lixo</div>
-                    <div class="filter-chip">Esgoto</div>
-                    <div class="filter-chip">Trânsito</div>
-                    <div class="filter-chip">Vandalismo</div>
+                    <div class="filter-button active">
+                        Todos
+                    </div>
+                    <div class="filter-button">
+                        Buracos
+                    </div>
+                    <div class="filter-button">
+                        Iluminação
+                    </div>
+                    <div class="filter-button">
+                        Lixo
+                    </div>
+                    <div class="filter-button">
+                        Esgoto
+                    </div>
                 </div>
 
                 <div class="map-container">
@@ -441,7 +422,7 @@
                         </div>
                         
                         <div class="map-marker" style="top: 65%; left: 25%;" data-id="3" onclick="openReportDetails('3')">
-                            <div class="marker-icon" style="background-color: var(--primary-color);">
+                            <div class="marker-icon in-progress">
                                 <i class="fas fa-trash"></i>
                             </div>
                             <div class="marker-tooltip">
@@ -472,34 +453,18 @@
                     </div>
                 </div>
 
-                <h3>Legenda</h3>
-                <div class="status-list">
-                    <div class="status-card">
-                        <div class="status-icon pending">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="status-info">
-                            <h3>Em análise</h3>
-                            <p>Denúncias que estão sendo verificadas</p>
-                        </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-color pending"></span>
+                        <span class="legend-text">Em análise</span>
                     </div>
-                    <div class="status-card">
-                        <div class="status-icon" style="background-color: var(--primary-color);">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <div class="status-info">
-                            <h3>Em andamento</h3>
-                            <p>Equipes trabalhando na solução</p>
-                        </div>
+                    <div class="legend-item">
+                        <span class="legend-color in-progress"></span>
+                        <span class="legend-text">Em andamento</span>
                     </div>
-                    <div class="status-card">
-                        <div class="status-icon completed">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="status-info">
-                            <h3>Resolvido</h3>
-                            <p>Problemas já solucionados</p>
-                        </div>
+                    <div class="legend-item">
+                        <span class="legend-color completed"></span>
+                        <span class="legend-text">Resolvido</span>
                     </div>
                 </div>
             </div>
@@ -535,41 +500,52 @@
                 <div class="back-btn" onclick="showScreen('dashboard-screen')">
                     <i class="fas fa-arrow-left"></i>
                 </div>
-                <h2>Fale com a Prefeitura</h2>
+                <h2>Atendimento</h2>
             </div>
 
-            <div class="chat-container">
-                <div class="chat-messages">
-                    <div class="message message-bot">
-                        <div>Olá! Como posso ajudar você hoje?</div>
-                        <div class="message-time">10:30</div>
+            <div class="main-content animate-fadeInUp">
+                <div class="service-cards">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Atendimento Virtual</h3>
+                        <p>Tire dúvidas com nosso assistente virtual</p>
+                        <button class="primary-btn" onclick="showVirtualAssistant()">Iniciar</button>
                     </div>
-                    <div class="message message-user">
-                        <div>Olá, preciso de informações sobre a coleta de lixo no meu bairro.</div>
-                        <div class="message-time">10:31</div>
-                    </div>
-                    <div class="message message-bot">
-                        <div>Claro! Em qual bairro você mora?</div>
-                        <div class="message-time">10:31</div>
-                    </div>
-                    <div class="message message-user">
-                        <div>Moro no Jardim das Flores.</div>
-                        <div class="message-time">10:32</div>
-                    </div>
-                    <div class="message message-bot">
-                        <div>No Jardim das Flores, a coleta de lixo comum acontece às segundas, quartas e sextas, a partir das 8h. A coleta seletiva é realizada às terças-feiras.</div>
-                        <div class="message-time">10:32</div>
-                    </div>
-                    <div class="message message-bot">
-                        <div>Posso ajudar com mais alguma informação?</div>
-                        <div class="message-time">10:33</div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Atendimento Humano</h3>
+                        <p>Fale com um de nossos atendentes</p>
+                        <button class="primary-btn" onclick="showHumanAssistant()">Iniciar</button>
                     </div>
                 </div>
-                <div class="chat-input">
-                    <input type="text" placeholder="Digite sua mensagem...">
-                    <button class="chat-send-btn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+
+                <div class="faq-section">
+                    <h3>Perguntas Frequentes</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Como obter certidão negativa de débitos?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Para obter a certidão negativa de débitos, acesse o portal da prefeitura, faça login com seu CPF e senha, e selecione a opção "Emitir Certidão" no menu de serviços. A certidão será gerada automaticamente se não houver pendências.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Qual o horário de funcionamento da prefeitura?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>A prefeitura funciona de segunda a sexta-feira, das 8h às 17h. O atendimento ao público é realizado das 9h às 16h. Alguns serviços específicos podem ter horários diferenciados.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -596,6 +572,61 @@
                     <span>Chat</span>
                 </div>
             </nav>
+        </div>
+
+        <!-- Modal de Chat Virtual -->
+        <div id="virtual-chat-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Assistente Virtual</h3>
+                    <button class="modal-close" onclick="closeModal('virtual-chat-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-messages">
+                        <div class="message message-bot">
+                            <div>Olá! Sou o assistente virtual da prefeitura. Como posso ajudar você hoje?</div>
+                            <div class="message-time">Agora</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Digite sua mensagem...">
+                        <button class="chat-send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Chat Humano -->
+        <div id="human-chat-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Atendimento Humano</h3>
+                    <button class="modal-close" onclick="closeModal('human-chat-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-status">
+                        <div class="status-icon">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <p>Conectando com um atendente disponível...</p>
+                        <p class="status-info">Tempo estimado de espera: 2 minutos</p>
+                    </div>
+                    <div class="chat-messages" style="display: none;">
+                        <div class="message message-bot">
+                            <div>Olá! Meu nome é Carlos e serei seu atendente hoje. Como posso ajudar?</div>
+                            <div class="message-time">Agora</div>
+                        </div>
+                    </div>
+                    <div class="chat-input" style="display: none;">
+                        <input type="text" placeholder="Digite sua mensagem...">
+                        <button class="chat-send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Modal de Nova Denúncia -->
@@ -649,28 +680,50 @@
         <div id="appointment-modal" class="modal-overlay">
             <div class="modal">
                 <div class="modal-header">
-                    <h3 class="modal-title">Agendamento Confirmado</h3>
+                    <h3 class="modal-title">Confirmação de Agendamento</h3>
                     <button class="modal-close" onclick="closeModal('appointment-modal')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="qr-container">
-                        <div class="qr-code">
-                            <img src="https://placehold.co/200/2196F3/FFFFFF/png?text=QR+Code" alt="QR Code" style="width: 100%; height: 100%;">
+                    <div class="confirmation-details">
+                        <div class="confirmation-item">
+                            <span class="confirmation-label">Serviço:</span>
+                            <span class="confirmation-value">Assistência Social</span>
                         </div>
-                        <div class="qr-info">
-                            <h3>Serviço: Saúde</h3>
-                            <p>Data: 20/03/2025</p>
-                            <p>Horário: 10:00</p>
-                            <p>Local: Unidade Central</p>
+                        <div class="confirmation-item">
+                            <span class="confirmation-label">Data:</span>
+                            <span class="confirmation-value">20 de Março de 2025</span>
+                        </div>
+                        <div class="confirmation-item">
+                            <span class="confirmation-label">Horário:</span>
+                            <span class="confirmation-value">10:00</span>
+                        </div>
+                        <div class="confirmation-item">
+                            <span class="confirmation-label">Local:</span>
+                            <span class="confirmation-value">Centro de Atendimento ao Cidadão</span>
                         </div>
                     </div>
-                    <p style="text-align: center; margin-bottom: 1rem;">
-                        Apresente este QR Code na recepção para confirmar sua presença.
-                    </p>
+                    
+                    <div class="qr-code-container">
+                        <img src="https://placehold.co/200x200/2196F3/FFFFFF/png?text=QR+Code" alt="QR Code de confirmação" class="qr-code">
+                        <p>Apresente este QR Code no local do atendimento</p>
+                    </div>
+                    
+                    <div class="confirmation-instructions">
+                        <h4><i class="fas fa-info-circle"></i> Instruções</h4>
+                        <ul>
+                            <li>Chegue com 15 minutos de antecedência</li>
+                            <li>Traga um documento com foto</li>
+                            <li>Caso não possa comparecer, cancele com pelo menos 24h de antecedência</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn secondary-btn">Adicionar ao Calendário</button>
-                    <button class="btn primary-btn" onclick="closeModal('appointment-modal')">OK</button>
+                    <button class="btn secondary-btn" onclick="closeModal('appointment-modal')">
+                        <i class="fas fa-times"></i> Fechar
+                    </button>
+                    <button class="btn primary-btn">
+                        <i class="fas fa-calendar-alt"></i> Adicionar ao Calendário
+                    </button>
                 </div>
             </div>
         </div>
@@ -899,5 +952,6 @@
         </div>
 
     <script src="js/app.js"></script>
+    <script src="js/protection.js"></script>
 </body>
 </html>

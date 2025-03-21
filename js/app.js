@@ -1,4 +1,72 @@
+// Inicializar todos os eventos
 document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar o login
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function() {
+            showScreen('dashboard-screen');
+        });
+    }
+    
+    // Inicializar o carrossel de notícias
+    initNewsCarousel();
+    
+    // Inicializar eventos de filtro do mapa
+    initMapFilters();
+    
+    // Inicializar eventos do calendário
+    initCalendarEvents();
+    
+    // Inicializar eventos para os horários
+    initTimeSlotEvents();
+    
+    // Inicializar eventos para os botões de confirmação
+    initConfirmationEvents();
+    
+    // Inicializar eventos para os botões de denúncia
+    initReportEvents();
+    
+    // Inicializar eventos para os botões de chat
+    initChatEvents();
+    
+    // Inicializar eventos para a navegação inferior
+    initBottomNavEvents();
+    
+    // Adicionar eventos para os botões de navegação
+    const navButtons = document.querySelectorAll('.bottom-nav-item');
+    navButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const screenId = this.getAttribute('data-screen');
+            if (screenId) {
+                showScreen(screenId);
+            }
+        });
+    });
+    
+    // Adicionar eventos para os botões de ação
+    const actionButtons = document.querySelectorAll('.action-card');
+    actionButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const action = this.getAttribute('data-action');
+            if (action === 'report') {
+                showScreen('reports-screen');
+            } else if (action === 'appointment') {
+                showScreen('appointments-screen');
+            }
+        });
+    });
+    
+    // Adicionar eventos para os chips de filtro do mapa
+    const filterChips = document.querySelectorAll('.filter-chip');
+    filterChips.forEach(function(chip) {
+        chip.addEventListener('click', function() {
+            // Remover classe ativa de todos os chips
+            filterChips.forEach(c => c.classList.remove('active'));
+            // Adicionar classe ativa ao chip clicado
+            this.classList.add('active');
+        });
+    });
+    
     // Simulação de login após 2 segundos
     setTimeout(function() {
         document.getElementById('login-btn').addEventListener('click', function() {
@@ -49,6 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         day.addEventListener('click', function() {
             calendarDays.forEach(d => d.classList.remove('active'));
             this.classList.add('active');
+            
+            // Atualizar os horários disponíveis com base no dia selecionado
+            updateAvailableTimeSlots(parseInt(this.textContent, 10));
         });
     });
 
@@ -85,11 +156,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Inicializar carrossel de notícias
-    initNewsCarousel();
-
-    // Inicializar eventos para os novos modais
+    // Inicializar eventos para os modais
     initModalEvents();
+    
+    // Inicializar eventos para o calendário
+    initCalendarEvents();
+    
+    // Inicializar eventos relacionados aos agendamentos
+    initAppointmentEvents();
+    
+    // Verificar se há um hash na URL para navegação direta
+    if (window.location.hash) {
+        const screenId = window.location.hash.substring(1);
+        const validScreens = ['home-screen', 'reports-screen', 'appointments-screen', 'map-screen', 'chat-screen'];
+        if (validScreens.includes(screenId)) {
+            showScreen(screenId);
+        }
+    }
 });
 
 // Função para inicializar eventos relacionados aos modais
@@ -244,16 +327,39 @@ function showScreen(screenId) {
     if (targetScreen) {
         targetScreen.classList.add('active');
         
-        // Atualizar navegação
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(function(item) {
-            item.classList.remove('active');
-            const itemScreenId = item.getAttribute('onclick').match(/'([^']+)'/);
-            if (itemScreenId && itemScreenId[1] === screenId) {
-                item.classList.add('active');
-            }
-        });
+        // Inicializar o calendário quando a tela de agendamento for exibida
+        if (screenId === 'appointments-screen') {
+            generateCalendar();
+        }
+        
+        // Inicializar o mapa quando a tela de mapa for exibida
+        if (screenId === 'map-screen') {
+            initMap();
+        }
+        
+        // Garantir que o carrossel de notícias seja reinicializado quando voltar ao dashboard
+        if (screenId === 'dashboard-screen') {
+            initNewsCarousel();
+        }
+        
+        // Atualizar a navegação inferior
+        updateBottomNav(screenId);
+        
+        // Rolar para o topo da tela
+        window.scrollTo(0, 0);
     }
+}
+
+// Função para atualizar a navegação inferior
+function updateBottomNav(activeScreenId) {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(function(item) {
+        item.classList.remove('active');
+        const itemScreenId = item.getAttribute('onclick').match(/'([^']+)'/);
+        if (itemScreenId && itemScreenId[1] === activeScreenId) {
+            item.classList.add('active');
+        }
+    });
 }
 
 // Função para abrir modal
@@ -403,7 +509,7 @@ function getReportData(reportId) {
                 {
                     date: '16/03/2025',
                     title: 'Em andamento',
-                    description: 'Solicitação encaminhada para a equipe de manutenção.'
+                    description: 'Equipe de manutenção foi designada para resolver o problema.'
                 },
                 {
                     date: '15/03/2025',
@@ -511,29 +617,437 @@ function initNewsCarousel() {
     const carousel = document.querySelector('.news-carousel');
     if (!carousel) return;
     
+    // Limpar qualquer timer existente
+    if (window.carouselInterval) {
+        clearInterval(window.carouselInterval);
+        window.carouselInterval = null;
+    }
+    
+    const cards = carousel.querySelectorAll('.news-card');
+    if (cards.length === 0) return;
+    
     let currentIndex = 0;
-    const newsCards = carousel.querySelectorAll('.news-card');
-    const totalCards = newsCards.length;
     
-    // Configurar posição inicial
-    updateCarouselPosition();
+    // Função para mostrar o card atual e esconder os outros
+    function showCurrentCard() {
+        cards.forEach((card, index) => {
+            // Garantir que todos os cards estejam no DOM
+            if (!carousel.contains(card)) {
+                carousel.appendChild(card);
+            }
+            
+            // Mostrar apenas o card atual
+            if (index === currentIndex) {
+                card.style.display = 'block';
+                card.classList.add('active');
+            } else {
+                card.style.display = 'none';
+                card.classList.remove('active');
+            }
+        });
+    }
     
-    // Configurar intervalo para rotação automática
-    setInterval(function() {
-        currentIndex = (currentIndex + 1) % totalCards;
-        updateCarouselPosition();
+    // Mostrar o primeiro card
+    showCurrentCard();
+    
+    // Configurar intervalo para alternar entre os cards
+    window.carouselInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        showCurrentCard();
     }, 5000);
     
-    function updateCarouselPosition() {
-        const cardWidth = newsCards[0].offsetWidth;
-        carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    // Adicionar evento para reiniciar o carrossel quando a tela se tornar visível
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Reiniciar o carrossel quando a página se tornar visível
+            initNewsCarousel();
+        }
+    });
+}
+
+// Função para gerar o calendário
+function generateCalendar() {
+    const calendarDays = document.querySelector('.calendar-days');
+    if (!calendarDays) return;
+
+    // Limpar calendário existente
+    calendarDays.innerHTML = '';
+
+    // Data atual
+    const now = new Date();
+    const currentMonth = 2; // Março (0-11)
+    const currentYear = 2025;
+    const currentDay = 20; // Dia atual fixo em 20 para corresponder à imagem
+
+    // Primeiro dia do mês
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const startingDay = firstDay.getDay(); // 0 = Domingo, 1 = Segunda, etc.
+
+    // Número de dias no mês
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const totalDays = lastDay.getDate();
+
+    // Adicionar dias vazios para alinhar com o dia da semana
+    for (let i = 0; i < startingDay; i++) {
+        const emptyDay = document.createElement('div');
+        calendarDays.appendChild(emptyDay);
+    }
+
+    // Adicionar dias do mês
+    for (let i = 1; i <= totalDays; i++) {
+        const day = document.createElement('div');
+        day.textContent = i;
+        day.classList.add('calendar-day');
         
-        // Atualizar indicadores se existirem
-        const indicators = document.querySelectorAll('.carousel-indicator');
-        if (indicators.length > 0) {
-            indicators.forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === currentIndex);
-            });
+        // Destacar dia atual (20)
+        if (i === currentDay) {
+            day.classList.add('selected');
+        }
+
+        // Adicionar evento de clique
+        day.addEventListener('click', function() {
+            const selectedDays = document.querySelectorAll('.calendar-days .selected');
+            selectedDays.forEach(d => d.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            // Atualizar horários disponíveis com base no dia selecionado
+            updateAvailableTimeSlots(parseInt(this.textContent, 10));
+        });
+
+        calendarDays.appendChild(day);
+    }
+    
+    // Inicializar os horários disponíveis para o dia atual
+    updateAvailableTimeSlots(currentDay);
+}
+
+// Inicializar eventos para o calendário
+function initCalendarEvents() {
+    // Gerar o calendário
+    generateCalendar();
+    
+    // Adicionar eventos para os botões de navegação do calendário
+    const prevMonthBtn = document.querySelector('.calendar-nav-prev');
+    const nextMonthBtn = document.querySelector('.calendar-nav-next');
+    
+    if (prevMonthBtn) {
+        prevMonthBtn.addEventListener('click', function() {
+            // Implementar navegação para o mês anterior
+            // Por enquanto, apenas regenerar o calendário
+            generateCalendar();
+        });
+    }
+    
+    if (nextMonthBtn) {
+        nextMonthBtn.addEventListener('click', function() {
+            // Implementar navegação para o próximo mês
+            // Por enquanto, apenas regenerar o calendário
+            generateCalendar();
+        });
+    }
+}
+
+// Função para atualizar os horários disponíveis com base no dia selecionado
+function updateAvailableTimeSlots(day) {
+    const timeSlots = document.querySelectorAll('.time-slot');
+    
+    // Resetar todos os slots
+    timeSlots.forEach(slot => {
+        slot.classList.remove('disabled');
+        slot.classList.remove('active');
+    });
+    
+    // Simular horários indisponíveis com base no dia
+    if (day % 2 === 0) {
+        // Para dias pares, o primeiro horário está indisponível
+        if (timeSlots[0]) {
+            timeSlots[0].classList.add('disabled');
+        }
+    } else {
+        // Para dias ímpares, o último horário está indisponível
+        if (timeSlots[timeSlots.length - 1]) {
+            timeSlots[timeSlots.length - 1].classList.add('disabled');
         }
     }
+    
+    // Selecionar o primeiro horário disponível
+    for (let i = 0; i < timeSlots.length; i++) {
+        if (!timeSlots[i].classList.contains('disabled')) {
+            timeSlots[i].classList.add('active');
+            break;
+        }
+    }
+}
+
+// Função para inicializar eventos relacionados aos agendamentos
+function initAppointmentEvents() {
+    // Adicionar evento para os slots de horário
+    const timeSlots = document.querySelectorAll('.time-slot');
+    timeSlots.forEach(function(slot) {
+        slot.addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                // Remover classe ativa de todos os slots
+                timeSlots.forEach(s => s.classList.remove('active'));
+                // Adicionar classe ativa ao slot clicado
+                this.classList.add('active');
+                
+                // Atualizar informações no modal
+                updateAppointmentModalInfo();
+            }
+        });
+    });
+    
+    // Adicionar evento para o botão de confirmar agendamento
+    const confirmBtn = document.querySelector('.appointment-confirm-btn');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            // Abrir modal de confirmação
+            openModal('appointment-modal');
+        });
+    }
+}
+
+// Função para atualizar as informações no modal de agendamento
+function updateAppointmentModalInfo() {
+    // Obter o dia selecionado
+    const selectedDay = document.querySelector('.calendar-day.selected');
+    // Obter o mês atual
+    const currentMonth = document.querySelector('.calendar-header h4');
+    // Obter o horário selecionado
+    const selectedTime = document.querySelector('.time-slot.active');
+    
+    // Atualizar as informações no modal
+    const dateInfo = document.getElementById('appointment-date-info');
+    const timeInfo = document.getElementById('appointment-time-info');
+    const serviceInfo = document.getElementById('appointment-service-info');
+    
+    if (dateInfo && currentMonth && selectedDay) {
+        dateInfo.textContent = selectedDay.textContent + ' de ' + currentMonth.textContent;
+    }
+    
+    if (timeInfo && selectedTime) {
+        timeInfo.textContent = selectedTime.textContent;
+    }
+    
+    if (serviceInfo) {
+        const selectedService = document.querySelector('.action-card.active span');
+        if (selectedService) {
+            serviceInfo.textContent = selectedService.textContent;
+        }
+    }
+}
+
+// Função para inicializar o mapa
+function initMap() {
+    // Reinicializar os filtros do mapa
+    initMapFilters();
+    
+    // Adicionar eventos de hover para os marcadores
+    const mapMarkers = document.querySelectorAll('.map-marker');
+    
+    mapMarkers.forEach(marker => {
+        const tooltip = marker.querySelector('.marker-tooltip');
+        
+        marker.addEventListener('mouseenter', function() {
+            tooltip.style.display = 'block';
+        });
+        
+        marker.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
+        });
+    });
+}
+
+// Inicializar eventos de filtro do mapa
+function initMapFilters() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const mapMarkers = document.querySelectorAll('.map-marker');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remover classe active de todos os botões
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Adicionar classe active ao botão clicado
+            this.classList.add('active');
+            
+            const filterType = this.textContent.trim().toLowerCase();
+            
+            // Mostrar todos os marcadores se o filtro for "todos"
+            if (filterType === 'todos') {
+                mapMarkers.forEach(marker => {
+                    marker.style.display = 'block';
+                });
+                return;
+            }
+            
+            // Filtrar marcadores com base no tipo selecionado
+            mapMarkers.forEach(marker => {
+                const markerType = marker.querySelector('.marker-tooltip strong').textContent.toLowerCase();
+                
+                if (markerType.includes(filterType)) {
+                    marker.style.display = 'block';
+                } else {
+                    marker.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Função para mostrar o assistente virtual
+function showVirtualAssistant() {
+    openModal('virtual-chat-modal');
+    
+    // Focar no campo de input
+    setTimeout(() => {
+        const input = document.querySelector('#virtual-chat-modal .chat-input input');
+        if (input) {
+            input.focus();
+        }
+    }, 300);
+}
+
+// Função para mostrar o atendimento humano
+function showHumanAssistant() {
+    openModal('human-chat-modal');
+    
+    // Simular conexão com atendente após 3 segundos
+    setTimeout(() => {
+        const chatStatus = document.querySelector('#human-chat-modal .chat-status');
+        const chatMessages = document.querySelector('#human-chat-modal .chat-messages');
+        const chatInput = document.querySelector('#human-chat-modal .chat-input');
+        
+        if (chatStatus && chatMessages && chatInput) {
+            chatStatus.style.display = 'none';
+            chatMessages.style.display = 'block';
+            chatInput.style.display = 'flex';
+            
+            // Focar no campo de input
+            const input = chatInput.querySelector('input');
+            if (input) {
+                input.focus();
+            }
+        }
+    }, 3000);
+}
+
+// Função para alternar a visibilidade das respostas do FAQ
+function toggleFaq(element) {
+    // Remover classe active de todas as perguntas
+    const allQuestions = document.querySelectorAll('.faq-question');
+    allQuestions.forEach(question => {
+        if (question !== element) {
+            question.classList.remove('active');
+        }
+    });
+    
+    // Alternar classe active na pergunta clicada
+    element.classList.toggle('active');
+}
+
+// Inicializar eventos para o chat
+function initChatEvents() {
+    // Adicionar evento para enviar mensagem no chat virtual
+    const virtualChatInput = document.querySelector('#virtual-chat-modal .chat-input input');
+    const virtualChatSendBtn = document.querySelector('#virtual-chat-modal .chat-send-btn');
+    const virtualChatMessages = document.querySelector('#virtual-chat-modal .chat-messages');
+    
+    if (virtualChatInput && virtualChatSendBtn && virtualChatMessages) {
+        // Função para enviar mensagem
+        const sendVirtualMessage = () => {
+            const message = virtualChatInput.value.trim();
+            if (message) {
+                // Adicionar mensagem do usuário
+                addChatMessage(virtualChatMessages, message, 'user');
+                virtualChatInput.value = '';
+                
+                // Simular resposta do bot após 1 segundo
+                setTimeout(() => {
+                    const botResponses = [
+                        "Entendi! Vou verificar essa informação para você.",
+                        "Claro, posso ajudar com isso. Você poderia fornecer mais detalhes?",
+                        "Essa é uma ótima pergunta. A resposta é que depende da sua situação específica.",
+                        "Vou encaminhar sua solicitação para o departamento responsável.",
+                        "Para esse serviço, você precisa comparecer presencialmente na prefeitura."
+                    ];
+                    
+                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                    addChatMessage(virtualChatMessages, randomResponse, 'bot');
+                }, 1000);
+            }
+        };
+        
+        // Evento de clique no botão de enviar
+        virtualChatSendBtn.addEventListener('click', sendVirtualMessage);
+        
+        // Evento de tecla Enter no input
+        virtualChatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendVirtualMessage();
+            }
+        });
+    }
+    
+    // Adicionar evento para enviar mensagem no chat humano
+    const humanChatInput = document.querySelector('#human-chat-modal .chat-input input');
+    const humanChatSendBtn = document.querySelector('#human-chat-modal .chat-send-btn');
+    const humanChatMessages = document.querySelector('#human-chat-modal .chat-messages');
+    
+    if (humanChatInput && humanChatSendBtn && humanChatMessages) {
+        // Função para enviar mensagem
+        const sendHumanMessage = () => {
+            const message = humanChatInput.value.trim();
+            if (message) {
+                // Adicionar mensagem do usuário
+                addChatMessage(humanChatMessages, message, 'user');
+                humanChatInput.value = '';
+                
+                // Simular resposta do atendente após 2 segundos
+                setTimeout(() => {
+                    const attendantResponses = [
+                        "Estou verificando essa informação no sistema, um momento por favor.",
+                        "Entendi sua solicitação. Vou precisar de algumas informações adicionais.",
+                        "Obrigado por aguardar. De acordo com nossos registros, sua solicitação já está em andamento.",
+                        "Posso ajudar com mais alguma coisa?",
+                        "Vou transferir seu caso para um especialista, ele entrará em contato em breve."
+                    ];
+                    
+                    const randomResponse = attendantResponses[Math.floor(Math.random() * attendantResponses.length)];
+                    addChatMessage(humanChatMessages, randomResponse, 'bot');
+                }, 2000);
+            }
+        };
+        
+        // Evento de clique no botão de enviar
+        humanChatSendBtn.addEventListener('click', sendHumanMessage);
+        
+        // Evento de tecla Enter no input
+        humanChatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendHumanMessage();
+            }
+        });
+    }
+}
+
+// Função para adicionar mensagem ao chat
+function addChatMessage(container, message, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message message-${type}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.textContent = message;
+    
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'message-time';
+    timeDiv.textContent = 'Agora';
+    
+    messageDiv.appendChild(contentDiv);
+    messageDiv.appendChild(timeDiv);
+    
+    container.appendChild(messageDiv);
+    
+    // Rolar para o final da conversa
+    container.scrollTop = container.scrollHeight;
 }
