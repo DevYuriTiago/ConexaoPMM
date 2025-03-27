@@ -22,7 +22,7 @@
         disableCopy: true,
         addWatermark: true,
         checkDomain: true,
-        allowedDomains: ["localhost", "127.0.0.1", "conexaomuni.netlify.app"]
+        allowedDomains: ["localhost", "127.0.0.1", "conexaopmm.netlify.app"]
     };
 
     // Registrar informações no console
